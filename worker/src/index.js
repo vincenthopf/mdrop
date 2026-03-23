@@ -21,7 +21,7 @@ export default {
 				if (path) {
 					return handleGet(env, path);
 				}
-				return new Response('mDrop', { status: 200 });
+				return Response.redirect('https://mdrop.dev', 302);
 			}
 
 			return new Response('Method not allowed', { status: 405 });

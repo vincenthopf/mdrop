@@ -40,19 +40,17 @@ https://mdrop.workers.dev/a1b2c3d4
 
 ## Quick Start
 
-### 1. Deploy the Worker
+### 1. Deploy the Worker (one click)
 
-Click the button to deploy mDrop to your Cloudflare account:
+Click the button. Cloudflare handles everything — clones the repo, creates KV storage, and prompts you for your API key. All in one flow.
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/vincenthopf/mdrop/tree/main/worker)
 
-Then set your API key:
+You'll be asked to:
+- Choose a Worker name (or keep the default `mdrop`)
+- Set your `API_KEY` secret — pick any strong string, you'll use it in step 3
 
-```bash
-cd worker
-wrangler secret put API_KEY
-# Enter a secret key — you'll use this to authenticate uploads
-```
+That's it. Your Worker is live.
 
 ### 2. Install the CLI
 
@@ -60,14 +58,14 @@ wrangler secret put API_KEY
 npm install -g mdrop
 ```
 
-### 3. Configure
+### 3. Connect
 
 ```bash
 mdrop init
-# Enter your Worker URL and API key
+# Paste your Worker URL (shown after deploy) and the API key you chose
 ```
 
-### 4. Share
+### 4. Drop it
 
 ```bash
 mdrop file.md                          # Clean theme, 7-day expiry
@@ -151,21 +149,11 @@ All rendering happens on your machine. The Worker is a trivial static file serve
 If you prefer manual setup over the deploy button:
 
 ```bash
-# Authenticate with Cloudflare (one-time)
 wrangler login
-
-# Clone and enter the worker directory
 git clone https://github.com/vincenthopf/mdrop
 cd mdrop/worker
-
-# Create a KV namespace and copy the ID
 wrangler kv namespace create "PAGES"
-# Output: { id: "your-namespace-id" }
-
-# Uncomment the [[kv_namespaces]] block in wrangler.toml
-# and paste the namespace ID
-
-# Set your API key and deploy
+# Replace the id in wrangler.toml with the namespace ID from the output
 wrangler secret put API_KEY
 wrangler deploy
 ```

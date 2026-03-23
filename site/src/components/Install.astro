@@ -18,8 +18,8 @@
 			<div data-animate="fade-up" data-delay="0.1">
 				<div class="text-[0.7rem] text-accent font-bold tracking-widest uppercase mb-3">/01 Deploy your worker</div>
 				<div class="bg-bg-card border-2 border-border p-8 text-center">
-					<p class="text-fg-muted text-sm mb-6">
-						Click the button. Cloudflare handles the rest — clones the repo, provisions KV storage, sets up CI/CD. Done in seconds.
+					<p class="text-fg-muted text-sm mb-4">
+						Click the button. Cloudflare creates your Worker, provisions KV storage, and prompts you for an API key. All in one flow.
 					</p>
 					<a
 						href="https://deploy.workers.cloudflare.com/?url=https://github.com/vincenthopf/mdrop/tree/main/worker"
@@ -33,25 +33,22 @@
 							class="h-12"
 						/>
 					</a>
-					<p class="text-fg-muted text-xs mt-5">
-						After deploy, set your API key: <code class="text-accent-light bg-bg-code px-2 py-0.5 border border-border text-xs">wrangler secret put API_KEY</code>
+					<p class="text-fg-muted text-xs mt-4">
+						Choose a name, set your secret key, done. Your Worker URL is shown after deploy.
 					</p>
 				</div>
 			</div>
 
-			<!-- Step 2: Install + Configure -->
+			<!-- Step 2: Install + Connect + Share -->
 			<div data-animate="fade-up" data-delay="0.2">
-				<div class="text-[0.7rem] text-accent font-bold tracking-widest uppercase mb-3">/02 Install &amp; share</div>
+				<div class="text-[0.7rem] text-accent font-bold tracking-widest uppercase mb-3">/02 Install, connect, drop</div>
 				<div class="bg-bg-code border-2 border-border p-5 overflow-x-auto">
-					<pre class="text-sm leading-relaxed"><span class="text-fg-muted"># Install the CLI</span>
-<span class="text-accent-light">npm install -g mdrop</span>
-
-<span class="text-fg-muted"># Point it at your worker</span>
+					<pre class="text-sm leading-relaxed"><span class="text-accent-light">npm install -g mdrop</span>
 <span class="text-accent-light">mdrop init</span>
+<span class="text-fg-muted"># Paste your Worker URL and the API key you chose</span>
 
-<span class="text-fg-muted"># Drop it</span>
 <span class="text-accent-light">mdrop README.md --theme brutalist</span>
-<span class="text-success"># → https://mdrop.workers.dev/a1b2c3d4</span></pre>
+<span class="text-success"># → https://your-worker.workers.dev/a1b2c3d4</span></pre>
 				</div>
 			</div>
 		</div>
