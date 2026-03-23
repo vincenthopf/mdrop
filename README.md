@@ -80,6 +80,10 @@ mdrop file.md --expires never          # Permanent link
 
 Choose a theme with `--theme <name>`. Every page is fully self-contained — CSS inlined, zero external requests.
 
+<p align="center">
+  <img src="site/public/images/mdrop-themes.png" alt="mdrop themes: Clean, Brutalist, Terminal, Academic, Playful" width="700" />
+</p>
+
 | Theme | Flag | Description |
 |-------|------|-------------|
 | **Clean** | `--theme clean` | Sans-serif, minimal, light/dark mode. The default. |
@@ -109,7 +113,7 @@ Choose a theme with `--theme <name>`. Every page is fully self-contained — CSS
 ## Architecture
 
 <p align="center">
-  <img src="site/public/images/mdrop-architecture.png" alt="mdrop architecture" width="700" />
+  <img src="site/public/images/mdrop-hero-banner.png" alt="mdrop architecture overview" width="700" />
 </p>
 
 mdrop is two things:
@@ -118,6 +122,10 @@ mdrop is two things:
 2. **Worker** (~50 lines of JS) — Stores HTML in Cloudflare KV, serves it. That's it.
 
 All rendering happens on your machine. The Worker is a trivial static file server. Deploy it once, push content forever — no rebuilds.
+
+<p align="center">
+  <img src="site/public/images/mdrop-architecture.png" alt="mdrop data flow: CLI → Worker → KV → Browser" width="600" />
+</p>
 
 ### Tech Stack
 
