@@ -4,7 +4,8 @@ import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import { exec } from 'node:child_process';
-import { createInterface } from 'node:readline';
+import * as p from '@clack/prompts';
+import pc from 'picocolors';
 import { renderMarkdown } from './render.js';
 import { wrapHtml } from './template.js';
 import { upload, listPages, deletePage } from './upload.js';
@@ -14,22 +15,28 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'));
 
 const THEMES = ['clean', 'brutalist', 'terminal', 'academic', 'playful'];
+const isTTY = process.stdout.isTTY;
+
+function createSpinner() {
+	if (!isTTY) return { start() {}, message() {}, stop() {} };
+	return p.spinner();
+}
 
 const HELP = `
-mDrop — share markdown files as styled HTML pages
+${pc.bold('mDrop')} ${pc.dim(`v${pkg.version}`)} — share markdown files as styled HTML pages
 
-Usage:
-  mdrop <file.md>                    Share with defaults (clean theme, 7d expiry)
-  mdrop <file.md> --theme brutalist  Choose a theme
-  mdrop <file.md> --expires 30d      Set link expiry
-  mdrop <file.md> --expires never    Permanent link
-  mdrop init                         Configure worker URL and API key
-  mdrop list                         List shared pages
-  mdrop delete <id>                  Delete a shared page
-  mdrop preview <file.md>            Preview rendered HTML locally
+${pc.bold('Usage:')}
+  ${pc.blue('mdrop')} <file.md>                    Share with defaults (clean theme, 7d expiry)
+  ${pc.blue('mdrop')} <file.md> --theme brutalist  Choose a theme
+  ${pc.blue('mdrop')} <file.md> --expires 30d      Set link expiry
+  ${pc.blue('mdrop')} <file.md> --expires never    Permanent link
+  ${pc.blue('mdrop init')}                         Configure worker URL and API key
+  ${pc.blue('mdrop list')}                         List shared pages
+  ${pc.blue('mdrop delete')} <id>                  Delete a shared page
+  ${pc.blue('mdrop preview')} <file.md>            Preview rendered HTML locally
 
-Themes: ${THEMES.join(', ')}
-Expiry: 1h, 6h, 12h, 1d, 7d, 30d, 90d, 365d, never (default: 7d)
+${pc.bold('Themes:')} ${THEMES.join(', ')}
+${pc.bold('Expiry:')} 1h, 6h, 12h, 1d, 7d, 30d, 90d, 365d, never ${pc.dim('(default: 7d)')}
 `;
 
 async function main() {
@@ -71,12 +78,8 @@ async function main() {
 	}
 
 	if (command === 'preview') {
-		const file = positionals[1];
-		if (!file) {
-			console.error('Usage: mdrop preview <file.md>');
-			process.exit(1);
-		}
-		await runPreview(file, values.theme);
+		if (!positionals[1]) throw new Error('Usage: mdrop preview <file.md>');
+		await runPreview(positionals[1], values.theme);
 		return;
 	}
 
@@ -85,27 +88,37 @@ async function main() {
 }
 
 async function runInit() {
-	const rl = createInterface({ input: process.stdin, output: process.stdout });
-	const ask = (q) => new Promise((res) => rl.question(q, res));
+	p.intro(pc.bold('mDrop setup'));
 
-	console.log('mDrop setup\n');
+	const workerUrl = await p.text({
+		message: 'Worker URL',
+		placeholder: 'https://mdrop.your-subdomain.workers.dev',
+		validate(value) {
+			if (!value) return 'Worker URL is required.';
+			try {
+				new URL(value);
+			} catch {
+				return 'Invalid URL.';
+			}
+		},
+	});
 
-	const workerUrl = await ask('Worker URL (e.g., https://mdrop.your-subdomain.workers.dev): ');
-	const apiKey = await ask('API key: ');
-
-	rl.close();
-
-	if (!workerUrl || !apiKey) {
-		console.error('Both fields are required.');
-		process.exit(1);
+	if (p.isCancel(workerUrl)) {
+		p.cancel('Setup cancelled.');
+		process.exit(0);
 	}
 
-	// Validate URL
-	try {
-		new URL(workerUrl);
-	} catch {
-		console.error('Invalid URL. Please enter a valid Worker URL.');
-		process.exit(1);
+	const apiKey = await p.password({
+		message: 'API key',
+		mask: '*',
+		validate(value) {
+			if (!value) return 'API key is required.';
+		},
+	});
+
+	if (p.isCancel(apiKey)) {
+		p.cancel('Setup cancelled.');
+		process.exit(0);
 	}
 
 	saveConfig({
@@ -113,45 +126,60 @@ async function runInit() {
 		apiKey,
 	});
 
-	console.log('\nConfiguration saved. You can now run `mdrop <file.md>` to share.');
+	p.outro(`Configuration saved. Run ${pc.blue('mdrop <file.md>')} to share.`);
 }
 
 async function runShare(filePath, themeName, expiresStr) {
 	if (!THEMES.includes(themeName)) {
-		console.error(`Unknown theme: ${themeName}. Available: ${THEMES.join(', ')}`);
-		process.exit(1);
+		throw new Error(`Unknown theme: ${themeName}. Available: ${THEMES.join(', ')}`);
 	}
 
 	const absPath = resolve(filePath);
 	if (!existsSync(absPath)) {
-		console.error(`File not found: ${filePath}`);
-		process.exit(1);
+		throw new Error(`File not found: ${filePath}`);
 	}
 
 	const ttl = parseTtl(expiresStr);
 	const source = readFileSync(absPath, 'utf-8');
 
-	console.log(`Rendering with ${themeName} theme...`);
+	const s = createSpinner();
+
+	s.start(`Rendering with ${pc.blue(themeName)} theme`);
 	const { content, title } = await renderMarkdown(source);
 	const html = wrapHtml(content, title, themeName);
 
-	console.log('Uploading...');
+	s.message('Uploading');
 	const result = await upload(html, { ttl, title, theme: themeName });
+	s.stop(pc.green('Done'));
 
-	console.log(`\n${result.url}`);
+	console.log(result.url);
+
+	if (isTTY) {
+		const expiryLabel = expiresStr === 'never' ? 'never' : expiresStr;
+		p.log.info(`${pc.dim('Theme:')} ${themeName}  ${pc.dim('Expires:')} ${expiryLabel}`);
+	}
 }
 
 async function runList() {
-	const config = loadConfig();
+	loadConfig();
 	const pages = await listPages();
 
 	if (pages.length === 0) {
-		console.log('No shared pages.');
+		if (isTTY) p.log.info('No shared pages.');
+		else console.log('No shared pages.');
 		return;
 	}
 
-	console.log(`\n${'ID'.padEnd(10)} ${'Title'.padEnd(30)} ${'Theme'.padEnd(12)} ${'Created'.padEnd(22)} Size`);
-	console.log('─'.repeat(85));
+	const header = `${'ID'.padEnd(10)} ${'Title'.padEnd(30)} ${'Theme'.padEnd(12)} ${'Created'.padEnd(22)} Size`;
+
+	if (isTTY) {
+		console.log();
+		console.log(pc.bold(header));
+		console.log(pc.dim('─'.repeat(85)));
+	} else {
+		console.log(header);
+		console.log('─'.repeat(85));
+	}
 
 	for (const page of pages) {
 		const created = page.created ? new Date(page.created).toLocaleString() : '—';
@@ -159,45 +187,78 @@ async function runList() {
 		const title = (page.title || 'Untitled').slice(0, 28);
 		const theme = page.theme || '—';
 
-		console.log(
-			`${page.id.padEnd(10)} ${title.padEnd(30)} ${theme.padEnd(12)} ${created.padEnd(22)} ${size}`
-		);
+		if (isTTY) {
+			console.log(
+				`${pc.blue(page.id.padEnd(10))} ${title.padEnd(30)} ${pc.dim(theme.padEnd(12))} ${pc.dim(created.padEnd(22))} ${pc.dim(size)}`
+			);
+		} else {
+			console.log(
+				`${page.id.padEnd(10)} ${title.padEnd(30)} ${theme.padEnd(12)} ${created.padEnd(22)} ${size}`
+			);
+		}
 	}
 
-	console.log(`\nView: ${config.workerUrl}/<id>`);
+	if (isTTY) {
+		const config = loadConfig();
+		console.log();
+		p.log.info(`View: ${pc.underline(config.workerUrl + '/<id>')}`);
+	}
 }
 
 async function runDelete(id) {
-	loadConfig(); // validates config exists
+	loadConfig();
+
+	if (isTTY) {
+		const confirmed = await p.confirm({
+			message: `Delete page ${pc.blue(id)}?`,
+			initialValue: false,
+		});
+
+		if (p.isCancel(confirmed) || !confirmed) {
+			p.cancel('Cancelled.');
+			process.exit(0);
+		}
+	}
+
 	await deletePage(id);
-	console.log(`Deleted: ${id}`);
+
+	if (isTTY) p.log.success(`Deleted ${pc.blue(id)}`);
+	else console.log(`Deleted: ${id}`);
 }
 
 async function runPreview(filePath, themeName) {
 	if (!THEMES.includes(themeName)) {
-		console.error(`Unknown theme: ${themeName}. Available: ${THEMES.join(', ')}`);
-		process.exit(1);
+		throw new Error(`Unknown theme: ${themeName}. Available: ${THEMES.join(', ')}`);
 	}
 
 	const absPath = resolve(filePath);
 	if (!existsSync(absPath)) {
-		console.error(`File not found: ${filePath}`);
-		process.exit(1);
+		throw new Error(`File not found: ${filePath}`);
 	}
 
 	const source = readFileSync(absPath, 'utf-8');
 
-	console.log(`Rendering with ${themeName} theme...`);
+	const s = createSpinner();
+	s.start(`Rendering with ${pc.blue(themeName)} theme`);
+
 	const { content, title } = await renderMarkdown(source);
 	const html = wrapHtml(content, title, themeName);
+
+	s.stop('Rendered');
 
 	const tmpFile = join(tmpdir(), `mdrop-preview-${Date.now()}.html`);
 	writeFileSync(tmpFile, html);
 
-	const openCmd = process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'start' : 'xdg-open';
+	const openCmd =
+		process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'start' : 'xdg-open';
 	exec(`${openCmd} "${tmpFile}"`);
 
-	console.log(`Preview: ${tmpFile}`);
+	if (isTTY) {
+		p.log.success('Opened preview in browser');
+		p.log.info(pc.dim(tmpFile));
+	} else {
+		console.log(tmpFile);
+	}
 }
 
 function parseTtl(str) {
@@ -205,8 +266,7 @@ function parseTtl(str) {
 
 	const match = str.match(/^(\d+)(h|d)$/);
 	if (!match) {
-		console.error(`Invalid expiry: ${str}. Use e.g., 1h, 7d, 30d, or never.`);
-		process.exit(1);
+		throw new Error(`Invalid expiry: ${str}. Use e.g., 1h, 7d, 30d, or never.`);
 	}
 
 	const num = parseInt(match[1], 10);
@@ -224,6 +284,10 @@ function formatSize(bytes) {
 }
 
 main().catch((err) => {
-	console.error(`Error: ${err.message}`);
+	if (isTTY) {
+		p.cancel(err.message);
+	} else {
+		process.stderr.write(`Error: ${err.message}\n`);
+	}
 	process.exit(1);
 });

@@ -27,10 +27,12 @@
 	"bugs": "https://github.com/vincenthopf/mdrop/issues",
 	"author": "Vincent Hopf",
 	"dependencies": {
+		"@clack/prompts": "^1.1.0",
 		"markdown-it": "^14.1.0",
 		"markdown-it-anchor": "^9.2.0",
 		"markdown-it-task-lists": "^2.1.1",
 		"markdown-it-toc-done-right": "^4.2.0",
+		"picocolors": "^1.1.1",
 		"shiki": "^3.0.0"
 	},
 	"engines": {
