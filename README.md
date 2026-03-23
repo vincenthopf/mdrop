@@ -12,7 +12,6 @@
 <p align="center">
   <a href="https://github.com/vincenthopf/mdrop/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License" /></a>
   <a href="https://www.npmjs.com/package/mdrop"><img src="https://img.shields.io/npm/v/mdrop.svg?color=blue" alt="npm version" /></a>
-  <a href="https://deploy.workers.cloudflare.com/?url=https://github.com/vincenthopf/mdrop/tree/main/worker"><img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare Workers" /></a>
 </p>
 
 <p align="center">
