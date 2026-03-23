@@ -31,3 +31,9 @@ body {
 	background-color: var(--color-accent);
 	color: white;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -18,9 +18,9 @@ const steps = [
 ];
 ---
 
-<section class="py-24 border-t-2 border-border" id="how">
+<section class="py-16 md:py-24 border-t-2 border-border" id="how">
 	<div class="max-w-7xl mx-auto px-6">
-		<div class="text-center mb-16" data-animate="fade-up">
+		<div class="text-center mb-12 md:mb-16" data-animate="fade-up">
 			<span class="block text-xs font-bold tracking-widest text-accent mb-3">/02 UNDER THE HOOD</span>
 			<h2 class="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-none text-white">
 				Simple by Design
@@ -31,7 +31,7 @@ const steps = [
 		</div>
 
 		<div data-animate="fade-up" data-delay="0.1" class="max-w-4xl mx-auto mb-12">
-			<div class="border-2 border-border-heavy shadow-[8px_8px_0_var(--color-accent)]">
+			<div class="border-2 border-border-heavy shadow-[4px_4px_0_var(--color-accent)] md:shadow-[8px_8px_0_var(--color-accent)]">
 				<img
 					src="/images/mdrop-hero-banner.png"
 					alt="mDrop architecture: CLI renders markdown, posts to Cloudflare Worker, stores in KV, browser fetches rendered page"
@@ -41,12 +41,12 @@ const steps = [
 			</div>
 		</div>
 
-		<div class="grid md:grid-cols-3 gap-6 mt-12">
+		<div class="grid gap-6 mt-12 justify-items-center md:grid-cols-3 md:justify-items-stretch">
 			{steps.map((step, i) => (
 				<div
 					data-animate="fade-up"
 					data-delay={String(0.1 * (i + 1))}
-					class="bg-bg-card border-2 border-border p-8 transition-all duration-200 hover:border-accent hover:shadow-[6px_6px_0_var(--color-accent)] hover:-translate-x-0.5 hover:-translate-y-0.5"
+					class="w-full max-w-md md:max-w-none bg-bg-card border-2 border-border p-5 md:p-8 transition-all duration-200 hover:border-accent hover:shadow-[6px_6px_0_var(--color-accent)] hover:-translate-x-0.5 hover:-translate-y-0.5"
 				>
 					<span class="block text-[0.7rem] text-accent font-bold tracking-widest mb-4">/{step.num}</span>
 					<h3 class="text-lg font-black uppercase text-white mb-3">{step.title}</h3>

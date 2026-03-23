@@ -65,7 +65,7 @@ function FeatureCard({
     <div
       data-animate="fade-up"
       data-delay={String(0.08 * (index + 1))}
-      className="flex gap-5 items-start bg-bg-card border-2 border-border p-8 transition-all duration-200 hover:border-accent"
+      className="w-full max-w-md md:max-w-none flex gap-4 md:gap-5 items-start bg-bg-card border-2 border-border p-5 md:p-8 transition-all duration-200 hover:border-accent"
       onMouseEnter={() => iconRef.current?.startAnimation()}
       onMouseLeave={() => iconRef.current?.stopAnimation()}
     >
@@ -136,7 +136,7 @@ export default function FeatureGrid() {
   };
 
   return (
-    <div className="grid md:grid-cols-2 gap-5">
+    <div className="grid gap-5 justify-items-center md:grid-cols-2 md:justify-items-stretch">
       {features.map((feature, i) => {
         const icon = iconMap[feature.key];
         return (
