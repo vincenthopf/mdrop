@@ -280,6 +280,22 @@ img {
 	background: var(--accent-light);
 }
 
+/* Header anchors */
+.header-anchor {
+	color: var(--accent);
+	text-decoration: none;
+	margin-right: 0.3em;
+	font-weight: 900;
+	opacity: 0;
+	transition: opacity 0.1s;
+}
+h1:hover .header-anchor,
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor {
+	opacity: 1;
+}
+
 /* Footer */
 .mdrop-footer {
 	max-width: 72ch;

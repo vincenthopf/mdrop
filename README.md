@@ -32,7 +32,7 @@ Uploading...
 https://mdrop.workers.dev/a1b2c3d4
 ```
 
-- **Pre-rendered HTML** — All rendering happens locally. Zero JavaScript on the page.
+- **Pre-rendered HTML** — All rendering happens locally. Pages load instantly.
 - **5 built-in themes** — Clean, Brutalist, Terminal, Academic, Playful.
 - **Configurable expiry** — Links expire in 1h, 7d, 30d, or never.
 - **Self-hosted** — Runs on your own Cloudflare Workers account. Free tier. $0.

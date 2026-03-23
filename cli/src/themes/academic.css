@@ -1,6 +1,6 @@
 /* mdrop — Academic theme
-   Serif typography, paper aesthetic, scholarly feel.
-   Clean and complete — no half measures. */
+   Serif typography, scholarly feel.
+   Clean and complete with proper light/dark support. */
 
 :root {
 	--bg: #fcfcf9;
@@ -10,6 +10,9 @@
 	--accent: #7c3a2e;
 	--accent-hover: #5a2a20;
 	--code-bg: #f4f4ef;
+	--fab-bg: #fcfcf9;
+	--fab-border: #d4d4ce;
+	--fab-fg: #6b6b6b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,7 +24,36 @@
 		--accent: #d4816b;
 		--accent-hover: #e09880;
 		--code-bg: #232320;
+		--fab-bg: #222220;
+		--fab-border: #333330;
+		--fab-fg: #8a8a80;
 	}
+}
+
+html[data-theme="light"] {
+	--bg: #fcfcf9;
+	--fg: #1a1a1a;
+	--fg-muted: #6b6b6b;
+	--border: #d4d4ce;
+	--accent: #7c3a2e;
+	--accent-hover: #5a2a20;
+	--code-bg: #f4f4ef;
+	--fab-bg: #fcfcf9;
+	--fab-border: #d4d4ce;
+	--fab-fg: #6b6b6b;
+}
+
+html[data-theme="dark"] {
+	--bg: #1c1c1a;
+	--fg: #d4d4c8;
+	--fg-muted: #8a8a80;
+	--border: #333330;
+	--accent: #d4816b;
+	--accent-hover: #e09880;
+	--code-bg: #232320;
+	--fab-bg: #222220;
+	--fab-border: #333330;
+	--fab-fg: #8a8a80;
 }
 
 *, *::before, *::after {
@@ -65,7 +97,6 @@ h1 {
 	border-bottom: 1px solid var(--border);
 }
 
-/* Style first paragraph after h1 as a subtitle */
 h1 + p {
 	text-align: center;
 	color: var(--fg-muted);
@@ -161,6 +192,8 @@ pre {
 	.shiki span { color: var(--shiki-dark) !important; }
 	.shiki.shiki-themes { background-color: var(--code-bg) !important; }
 }
+html[data-theme="dark"] .shiki span { color: var(--shiki-dark) !important; }
+html[data-theme="light"] .shiki span { color: var(--shiki-light) !important; }
 
 /* Blockquotes */
 blockquote {
@@ -241,6 +274,22 @@ img {
 }
 .mdrop-toc a:hover {
 	color: var(--accent);
+}
+
+/* Header anchors */
+.header-anchor {
+	color: var(--border);
+	text-decoration: none;
+	margin-right: 0.3em;
+	font-weight: 400;
+	opacity: 0;
+	transition: opacity 0.15s;
+}
+h1:hover .header-anchor,
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor {
+	opacity: 1;
 }
 
 /* Footer */

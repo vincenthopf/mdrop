@@ -254,6 +254,21 @@ img {
 }
 .mdrop-toc a:hover { color: var(--fg); }
 
+/* Header anchors */
+.header-anchor {
+	color: var(--fg-muted);
+	text-decoration: none;
+	margin-right: 0.3em;
+	opacity: 0;
+	transition: opacity 0.1s;
+}
+h1:hover .header-anchor,
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor {
+	opacity: 1;
+}
+
 /* Footer */
 .mdrop-footer {
 	max-width: 80ch;
