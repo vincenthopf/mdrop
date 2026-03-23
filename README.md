@@ -74,6 +74,16 @@ mdrop file.md --expires 30d            # Set link expiry
 mdrop file.md --expires never          # Permanent link
 ```
 
+### Custom Domain (optional)
+
+Want your pages at `share.yourdomain.com` instead of `mdrop.workers.dev`? If your domain is on Cloudflare:
+
+1. Go to **Workers & Pages → your mDrop Worker → Settings → Domains & Routes**
+2. Click **Add → Custom Domain**
+3. Enter your subdomain (e.g., `share.yourdomain.com`)
+
+Cloudflare handles DNS and SSL automatically. Then run `mdrop init` again with your new domain.
+
 ## Themes
 
 Choose a theme with `--theme <name>`. Every page is fully self-contained — CSS inlined, zero external requests.
