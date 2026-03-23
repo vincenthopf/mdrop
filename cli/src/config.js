@@ -7,16 +7,14 @@ const CONFIG_FILE = join(CONFIG_DIR, 'config.json');
 
 export function loadConfig() {
 	if (!existsSync(CONFIG_FILE)) {
-		console.error('mdrop is not configured. Run `mdrop init` first.');
-		process.exit(1);
+		throw new Error('mdrop is not configured. Run `mdrop init` first.');
 	}
 
 	const raw = readFileSync(CONFIG_FILE, 'utf-8');
 	const config = JSON.parse(raw);
 
 	if (!config.workerUrl || !config.apiKey) {
-		console.error('Invalid config. Run `mdrop init` to reconfigure.');
-		process.exit(1);
+		throw new Error('Invalid config. Run `mdrop init` to reconfigure.');
 	}
 
 	return config;
