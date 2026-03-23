@@ -35,7 +35,11 @@ export default {
 };
 
 async function handlePost(request, env, url) {
-	if (!(await authorize(request, env))) {
+	const auth = await authorize(request, env);
+	if (!auth.ok) {
+		return new Response(auth.reason, { status: 503 });
+	}
+	if (!auth.authorized) {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
@@ -96,7 +100,11 @@ async function handleGet(env, id) {
 }
 
 async function handleDelete(request, env, id) {
-	if (!(await authorize(request, env))) {
+	const auth = await authorize(request, env);
+	if (!auth.ok) {
+		return new Response(auth.reason, { status: 503 });
+	}
+	if (!auth.authorized) {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
@@ -107,7 +115,11 @@ async function handleDelete(request, env, id) {
 }
 
 async function handleList(request, env) {
-	if (!(await authorize(request, env))) {
+	const auth = await authorize(request, env);
+	if (!auth.ok) {
+		return new Response(auth.reason, { status: 503 });
+	}
+	if (!auth.authorized) {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
@@ -123,16 +135,20 @@ async function handleList(request, env) {
 }
 
 async function authorize(request, env) {
+	if (!env.API_KEY) {
+		return { ok: false, reason: 'API_KEY not configured. Run: wrangler secret put API_KEY' };
+	}
+
 	const auth = request.headers.get('Authorization') || '';
 	const expected = `Bearer ${env.API_KEY}`;
 
 	if (auth.length !== expected.length) {
-		return false;
+		return { ok: true, authorized: false };
 	}
 
 	const encoder = new TextEncoder();
 	const a = encoder.encode(auth);
 	const b = encoder.encode(expected);
 
-	return crypto.subtle.timingSafeEqual(a, b);
+	return { ok: true, authorized: crypto.subtle.timingSafeEqual(a, b) };
 }

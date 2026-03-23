@@ -1,3 +1,5 @@
-# Your secret API key for authenticating uploads from the mDrop CLI.
-# Choose any strong random string. You'll use this same key when running `mdrop init`.
-API_KEY=your-secret-api-key-here
+# Required: Your secret API key for authenticating uploads from the mDrop CLI.
+# Choose any strong random string (e.g., generate one with: openssl rand -hex 32)
+# You'll use this same key when running `mdrop init` to connect the CLI.
+# Uploads are blocked until this is set.
+API_KEY=
