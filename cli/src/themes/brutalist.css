@@ -1,6 +1,6 @@
 /* mdrop — Neo Brutalist theme
-   Inspired by lawn.video. Hard borders, monospace,
-   offset block shadows, warm off-white + forest green. */
+   Hard borders, monospace, offset block shadows.
+   Light: warm off-white + forest green. Dark: inverted. */
 
 :root {
 	--bg: #f0f0e8;
@@ -13,6 +13,59 @@
 	--code-fg: #f0f0e8;
 	--shadow: #1a1a1a;
 	--shadow-accent: #2d5a2d;
+	--fab-bg: #f0f0e8;
+	--fab-border: #1a1a1a;
+	--fab-fg: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #141414;
+		--fg: #e8e8e0;
+		--fg-muted: #888880;
+		--border: #e8e8e0;
+		--accent: #7cb87c;
+		--accent-light: #2d5a2d;
+		--code-bg: #0a0a0a;
+		--code-fg: #e8e8e0;
+		--shadow: #000000;
+		--shadow-accent: #1a3d1a;
+		--fab-bg: #1a1a1a;
+		--fab-border: #e8e8e0;
+		--fab-fg: #e8e8e0;
+	}
+}
+
+html[data-theme="light"] {
+	--bg: #f0f0e8;
+	--fg: #1a1a1a;
+	--fg-muted: #888888;
+	--border: #1a1a1a;
+	--accent: #2d5a2d;
+	--accent-light: #7cb87c;
+	--code-bg: #1a1a1a;
+	--code-fg: #f0f0e8;
+	--shadow: #1a1a1a;
+	--shadow-accent: #2d5a2d;
+	--fab-bg: #f0f0e8;
+	--fab-border: #1a1a1a;
+	--fab-fg: #1a1a1a;
+}
+
+html[data-theme="dark"] {
+	--bg: #141414;
+	--fg: #e8e8e0;
+	--fg-muted: #888880;
+	--border: #e8e8e0;
+	--accent: #7cb87c;
+	--accent-light: #2d5a2d;
+	--code-bg: #0a0a0a;
+	--code-fg: #e8e8e0;
+	--shadow: #000000;
+	--shadow-accent: #1a3d1a;
+	--fab-bg: #1a1a1a;
+	--fab-border: #e8e8e0;
+	--fab-fg: #e8e8e0;
 }
 
 *, *::before, *::after {
@@ -57,13 +110,13 @@ h1 {
 	font-size: 3rem;
 	margin-top: 0;
 	padding-bottom: 1rem;
-	border-bottom: 3px solid var(--fg);
+	border-bottom: 3px solid var(--border);
 }
 
 h2 {
 	font-size: 2rem;
 	padding: 0.5rem 0;
-	border-bottom: 2px solid var(--fg);
+	border-bottom: 2px solid var(--border);
 }
 
 h3 { font-size: 1.4rem; }
@@ -109,7 +162,7 @@ code {
 	background: var(--code-bg);
 	color: var(--code-fg);
 	padding: 0.2em 0.4em;
-	border: 2px solid var(--fg);
+	border: 2px solid var(--border);
 }
 
 pre {
@@ -122,7 +175,7 @@ pre {
 	font-size: 0.85rem;
 	line-height: 1.6;
 	overflow-x: auto;
-	border: 2px solid var(--fg);
+	border: 2px solid var(--border);
 	box-shadow: 6px 6px 0 var(--shadow);
 	background: var(--code-bg) !important;
 }
@@ -134,7 +187,7 @@ pre {
 	color: inherit;
 }
 
-/* Force dark code theme since the code bg is dark */
+/* Always dark code since code bg is dark */
 .shiki span {
 	color: var(--shiki-dark) !important;
 }
@@ -143,7 +196,7 @@ pre {
 blockquote {
 	margin: 0 0 1.5rem;
 	padding: 1rem 1.25rem;
-	border: 2px solid var(--fg);
+	border: 2px solid var(--border);
 	border-left: 6px solid var(--accent);
 	box-shadow: 4px 4px 0 var(--shadow-accent);
 	background: var(--bg);
@@ -156,26 +209,26 @@ table {
 	border-collapse: collapse;
 	margin: 0 0 1.5rem;
 	font-size: 0.9rem;
-	border: 2px solid var(--fg);
+	border: 2px solid var(--border);
 }
 th, td {
 	padding: 0.6rem 0.8rem;
 	text-align: left;
-	border: 1px solid var(--fg);
+	border: 1px solid var(--border);
 }
 th {
 	font-weight: 900;
 	text-transform: uppercase;
 	font-size: 0.8rem;
 	letter-spacing: 0.05em;
-	background: var(--fg);
-	color: var(--bg);
+	background: var(--code-bg);
+	color: var(--code-fg);
 }
 
 /* Horizontal rule */
 hr {
 	border: none;
-	border-top: 3px solid var(--fg);
+	border-top: 3px solid var(--border);
 	margin: 2.5rem 0;
 }
 
@@ -183,7 +236,7 @@ hr {
 img {
 	max-width: 100%;
 	height: auto;
-	border: 2px solid var(--fg);
+	border: 2px solid var(--border);
 	box-shadow: 6px 6px 0 var(--shadow);
 }
 
@@ -191,7 +244,7 @@ img {
 .mdrop-toc {
 	margin-bottom: 2.5rem;
 	padding: 1.25rem;
-	border: 2px solid var(--fg);
+	border: 2px solid var(--border);
 	box-shadow: 6px 6px 0 var(--shadow-accent);
 }
 .mdrop-toc::before {
@@ -215,7 +268,7 @@ img {
 	margin-bottom: 0.3rem;
 }
 .mdrop-toc li::before {
-	content: '→ ';
+	content: '\2192  ';
 	color: var(--accent);
 }
 .mdrop-toc a {
@@ -232,7 +285,7 @@ img {
 	max-width: 72ch;
 	margin: 3rem auto 1rem;
 	padding-top: 1rem;
-	border-top: 2px solid var(--fg);
+	border-top: 2px solid var(--border);
 	font-size: 0.75rem;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
@@ -241,6 +294,17 @@ img {
 .mdrop-footer a {
 	color: var(--fg-muted);
 	font-weight: 700;
+}
+
+/* Fab overrides for brutalist */
+.mdrop-fab button {
+	border-radius: 0;
+	border-width: 2px;
+	box-shadow: 3px 3px 0 var(--shadow);
+}
+.mdrop-fab button:hover {
+	transform: translate(-1px, -1px);
+	box-shadow: 4px 4px 0 var(--shadow);
 }
 
 /* Responsive */

@@ -6,7 +6,7 @@ export async function upload(html, { ttl, title, theme }) {
 	const headers = {
 		'Authorization': `Bearer ${config.apiKey}`,
 		'Content-Type': 'text/html',
-		'X-Title': title || 'Untitled',
+		'X-Title': encodeURIComponent(title || 'Untitled'),
 		'X-Theme': theme || 'clean',
 	};
 

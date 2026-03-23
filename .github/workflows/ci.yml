@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-build:
+    name: Lint & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build site
+        run: pnpm --filter mdrop-site build
+
+      - name: Test CLI renders
+        run: |
+          echo "# Test Document" > /tmp/test.md
+          echo "Hello **world**" >> /tmp/test.md
+          echo '```javascript' >> /tmp/test.md
+          echo 'console.log("hello")' >> /tmp/test.md
+          echo '```' >> /tmp/test.md
+          node cli/bin/mdrop.js preview /tmp/test.md --theme clean
+          node cli/bin/mdrop.js preview /tmp/test.md --theme brutalist
+          node cli/bin/mdrop.js preview /tmp/test.md --theme terminal
+          node cli/bin/mdrop.js preview /tmp/test.md --theme academic
+          node cli/bin/mdrop.js preview /tmp/test.md --theme playful
+
+      - name: CLI help works
+        run: node cli/bin/mdrop.js --help

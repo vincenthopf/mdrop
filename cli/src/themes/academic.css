@@ -1,28 +1,26 @@
 /* mdrop — Academic theme
-   Serif fonts, paper-like background, LaTeX-inspired headings,
-   generous margins, footnote styling. */
+   Serif typography, paper aesthetic, scholarly feel.
+   Clean and complete — no half measures. */
 
 :root {
-	--bg: #fffff8;
-	--fg: #111111;
-	--fg-muted: #666666;
-	--border: #cccccc;
-	--accent: #8b0000;
-	--accent-hover: #a00000;
-	--code-bg: #f5f5f0;
-	--paper-shadow: rgba(0, 0, 0, 0.06);
+	--bg: #fcfcf9;
+	--fg: #1a1a1a;
+	--fg-muted: #6b6b6b;
+	--border: #d4d4ce;
+	--accent: #7c3a2e;
+	--accent-hover: #5a2a20;
+	--code-bg: #f4f4ef;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--bg: #1a1a17;
+		--bg: #1c1c1a;
 		--fg: #d4d4c8;
-		--fg-muted: #999990;
+		--fg-muted: #8a8a80;
 		--border: #333330;
-		--accent: #e06060;
-		--accent-hover: #f07070;
-		--code-bg: #222220;
-		--paper-shadow: transparent;
+		--accent: #d4816b;
+		--accent-hover: #e09880;
+		--code-bg: #232320;
 	}
 }
 
@@ -38,27 +36,20 @@ html {
 body {
 	margin: 0;
 	padding: 3rem 1.5rem;
-	background: #e8e8e0;
+	background: var(--bg);
 	color: var(--fg);
-	font-family: 'Crimson Text', 'Crimson Pro', Georgia, 'Times New Roman', serif;
+	font-family: Georgia, 'Times New Roman', 'Noto Serif', serif;
 	line-height: 1.8;
-}
-
-@media (prefers-color-scheme: dark) {
-	body { background: #111110; }
 }
 
 .mdrop-article {
 	max-width: 65ch;
 	margin: 0 auto;
-	background: var(--bg);
-	padding: 3rem 3.5rem;
-	box-shadow: 0 1px 8px var(--paper-shadow);
 }
 
-/* Typography — LaTeX inspired */
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+	font-family: Georgia, 'Times New Roman', serif;
 	font-weight: 700;
 	line-height: 1.25;
 	margin-top: 2.5rem;
@@ -66,33 +57,38 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size: 2.4rem;
+	font-size: 2.2rem;
 	margin-top: 0;
 	text-align: center;
-	margin-bottom: 0.5rem;
+	padding-bottom: 1.5rem;
+	margin-bottom: 1.5rem;
+	border-bottom: 1px solid var(--border);
 }
 
-/* Subtitle-like: if the first element after h1 is a paragraph, style it */
+/* Style first paragraph after h1 as a subtitle */
 h1 + p {
 	text-align: center;
 	color: var(--fg-muted);
 	font-style: italic;
-	font-size: 1.1rem;
+	font-size: 1.05rem;
 	margin-bottom: 2rem;
 }
 
 h2 {
-	font-size: 1.6rem;
+	font-size: 1.5rem;
 	margin-top: 2.5rem;
-	counter-increment: section;
+	padding-bottom: 0.3rem;
+	border-bottom: 1px solid var(--border);
 }
 
 h3 {
-	font-size: 1.25rem;
-	font-style: italic;
+	font-size: 1.2rem;
 }
 
-h4 { font-size: 1.1rem; }
+h4 {
+	font-size: 1.05rem;
+	font-style: italic;
+}
 
 p {
 	margin: 0 0 1rem;
@@ -108,6 +104,8 @@ a {
 a:hover {
 	border-bottom-color: var(--accent);
 }
+
+strong { font-weight: 700; }
 
 /* Lists */
 ul, ol {
@@ -125,14 +123,13 @@ li { margin-bottom: 0.3rem; }
 	margin-right: 0.5rem;
 }
 
-/* Code — stands out on the serif page */
+/* Code */
 code {
 	font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
 	font-size: 0.8em;
 	background: var(--code-bg);
 	padding: 0.15em 0.3em;
-	border-radius: 2px;
-	border: 1px solid var(--border);
+	border-radius: 3px;
 }
 
 pre {
@@ -142,7 +139,7 @@ pre {
 
 .shiki {
 	padding: 1rem 1.25rem;
-	border-radius: 2px;
+	border-radius: 3px;
 	font-size: 0.78rem;
 	line-height: 1.6;
 	overflow-x: auto;
@@ -165,7 +162,7 @@ pre {
 	.shiki.shiki-themes { background-color: var(--code-bg) !important; }
 }
 
-/* Blockquotes — indented, italic, scholarly */
+/* Blockquotes */
 blockquote {
 	margin: 1.5rem 2rem;
 	padding: 0;
@@ -173,14 +170,17 @@ blockquote {
 	font-style: italic;
 	color: var(--fg-muted);
 }
+blockquote p { text-align: left; }
 blockquote p:last-child { margin-bottom: 0; }
 
-/* Tables */
+/* Tables — scholarly style: top and bottom rules only */
 table {
 	width: 100%;
 	border-collapse: collapse;
 	margin: 1rem 0 1.5rem;
 	font-size: 0.9rem;
+	border-top: 2px solid var(--fg);
+	border-bottom: 2px solid var(--fg);
 }
 th, td {
 	padding: 0.5rem 0.75rem;
@@ -188,16 +188,14 @@ th, td {
 }
 th {
 	font-weight: 700;
-	border-bottom: 2px solid var(--fg);
+	border-bottom: 1px solid var(--fg);
 	font-size: 0.85rem;
 }
 td {
 	border-bottom: 1px solid var(--border);
 }
-/* Academic tables: rule on top and bottom only */
-table {
-	border-top: 2px solid var(--fg);
-	border-bottom: 2px solid var(--fg);
+tr:last-child td {
+	border-bottom: none;
 }
 
 /* Horizontal rule */
@@ -221,17 +219,10 @@ img {
 /* TOC */
 .mdrop-toc {
 	margin-bottom: 2rem;
-	padding: 1rem 1.5rem;
-	border: 1px solid var(--border);
+	padding: 1rem 1.25rem;
+	border-top: 1px solid var(--border);
+	border-bottom: 1px solid var(--border);
 	font-size: 0.9rem;
-}
-.mdrop-toc::before {
-	content: 'Contents';
-	display: block;
-	font-weight: 700;
-	font-size: 1rem;
-	margin-bottom: 0.5rem;
-	font-style: italic;
 }
 .mdrop-toc ul {
 	list-style: none;
@@ -255,8 +246,9 @@ img {
 /* Footer */
 .mdrop-footer {
 	max-width: 65ch;
-	margin: 2rem auto 1rem;
-	padding: 0 3.5rem;
+	margin: 3rem auto 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--border);
 	font-size: 0.75rem;
 	color: var(--fg-muted);
 	font-style: italic;
@@ -268,9 +260,8 @@ img {
 /* Responsive */
 @media (max-width: 640px) {
 	html { font-size: 16px; }
-	body { padding: 1rem 0.5rem; }
-	.mdrop-article { padding: 2rem 1.5rem; }
-	.mdrop-footer { padding: 0 1.5rem; }
+	body { padding: 1.5rem 1rem; }
 	p { text-align: left; hyphens: none; }
 	blockquote { margin: 1rem 1rem; }
+	h1 { font-size: 1.8rem; }
 }

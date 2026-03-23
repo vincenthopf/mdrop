@@ -24,7 +24,7 @@ export function loadConfig() {
 
 export function saveConfig(config) {
 	mkdirSync(CONFIG_DIR, { recursive: true });
-	writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2) + '\n');
+	writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2) + '\n', { mode: 0o600 });
 }
 
 export function configExists() {

@@ -25,7 +25,7 @@ export async function renderMarkdown(source) {
 	const shiki = await getHighlighter();
 
 	const md = new MarkdownIt({
-		html: true,
+		html: false, // Disable raw HTML to prevent XSS in shared pages
 		linkify: true,
 		typographer: true,
 		highlight(code, lang) {
@@ -36,6 +36,9 @@ export async function renderMarkdown(source) {
 			});
 		},
 	});
+
+	// Enable GFM strikethrough
+	md.enable('strikethrough');
 
 	md.use(anchor, {
 		permalink: anchor.permalink.ariaHidden({ placement: 'before' }),
@@ -49,13 +52,15 @@ export async function renderMarkdown(source) {
 
 	md.use(taskLists, { enabled: false, label: true });
 
-	// Extract title from first h1 if present
-	const titleMatch = source.match(/^#\s+(.+)$/m);
-	const title = titleMatch ? titleMatch[1].trim() : 'Untitled';
+	// Extract title from first h1, stripping inline markdown formatting
+	const titleMatch = source.match(/^#\s+(.+?)(?:\s+#+)?$/m);
+	const title = titleMatch
+		? titleMatch[1].replace(/[*_~`[\]]/g, '').trim()
+		: 'Untitled';
 
-	// Prepend TOC placeholder if there are headings
-	const hasHeadings = /^#{1,6}\s/m.test(source);
-	const sourceWithToc = hasHeadings ? '${toc}\n\n' + source : source;
+	// Auto-inject TOC placeholder if document has 3+ headings
+	const headingCount = (source.match(/^#{1,6}\s/gm) || []).length;
+	const sourceWithToc = headingCount >= 3 ? '${toc}\n\n' + source : source;
 
 	const content = md.render(sourceWithToc);
 

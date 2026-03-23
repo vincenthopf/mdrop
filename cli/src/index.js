@@ -1,11 +1,17 @@
 import { parseArgs } from 'node:util';
-import { readFileSync, existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { resolve, join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { tmpdir } from 'node:os';
+import { exec } from 'node:child_process';
 import { createInterface } from 'node:readline';
 import { renderMarkdown } from './render.js';
 import { wrapHtml } from './template.js';
 import { upload, listPages, deletePage } from './upload.js';
-import { saveConfig, configExists } from './config.js';
+import { loadConfig, saveConfig } from './config.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'));
 
 const THEMES = ['clean', 'brutalist', 'terminal', 'academic', 'playful'];
 
@@ -37,13 +43,13 @@ async function main() {
 		},
 	});
 
-	if (values.help || positionals.length === 0) {
-		console.log(HELP);
+	if (values.version) {
+		console.log(`mdrop ${pkg.version}`);
 		return;
 	}
 
-	if (values.version) {
-		console.log('mdrop 0.1.0');
+	if (values.help || positionals.length === 0) {
+		console.log(HELP);
 		return;
 	}
 
@@ -94,6 +100,14 @@ async function runInit() {
 		process.exit(1);
 	}
 
+	// Validate URL
+	try {
+		new URL(workerUrl);
+	} catch {
+		console.error('Invalid URL. Please enter a valid Worker URL.');
+		process.exit(1);
+	}
+
 	saveConfig({
 		workerUrl: workerUrl.replace(/\/+$/, ''),
 		apiKey,
@@ -103,11 +117,6 @@ async function runInit() {
 }
 
 async function runShare(filePath, themeName, expiresStr) {
-	if (!configExists()) {
-		console.error('mdrop is not configured. Run `mdrop init` first.');
-		process.exit(1);
-	}
-
 	if (!THEMES.includes(themeName)) {
 		console.error(`Unknown theme: ${themeName}. Available: ${THEMES.join(', ')}`);
 		process.exit(1);
@@ -133,20 +142,13 @@ async function runShare(filePath, themeName, expiresStr) {
 }
 
 async function runList() {
-	if (!configExists()) {
-		console.error('mdrop is not configured. Run `mdrop init` first.');
-		process.exit(1);
-	}
-
+	const config = loadConfig();
 	const pages = await listPages();
 
 	if (pages.length === 0) {
 		console.log('No shared pages.');
 		return;
 	}
-
-	const { loadConfig } = await import('./config.js');
-	const config = loadConfig();
 
 	console.log(`\n${'ID'.padEnd(10)} ${'Title'.padEnd(30)} ${'Theme'.padEnd(12)} ${'Created'.padEnd(22)} Size`);
 	console.log('─'.repeat(85));
@@ -166,11 +168,7 @@ async function runList() {
 }
 
 async function runDelete(id) {
-	if (!configExists()) {
-		console.error('mdrop is not configured. Run `mdrop init` first.');
-		process.exit(1);
-	}
-
+	loadConfig(); // validates config exists
 	await deletePage(id);
 	console.log(`Deleted: ${id}`);
 }
@@ -192,12 +190,6 @@ async function runPreview(filePath, themeName) {
 	console.log(`Rendering with ${themeName} theme...`);
 	const { content, title } = await renderMarkdown(source);
 	const html = wrapHtml(content, title, themeName);
-
-	// Write to temp file and open in browser
-	const { writeFileSync } = await import('node:fs');
-	const { tmpdir } = await import('node:os');
-	const { join } = await import('node:path');
-	const { exec } = await import('node:child_process');
 
 	const tmpFile = join(tmpdir(), `mdrop-preview-${Date.now()}.html`);
 	writeFileSync(tmpFile, html);

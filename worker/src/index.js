@@ -1,43 +1,62 @@
+const MAX_BODY_SIZE = 5 * 1024 * 1024; // 5 MB
+
 export default {
 	async fetch(request, env) {
-		const url = new URL(request.url);
-		const path = url.pathname.slice(1);
+		try {
+			const url = new URL(request.url);
+			const path = url.pathname.slice(1);
 
-		if (request.method === 'POST') {
-			return handlePost(request, env, url);
-		}
-
-		if (request.method === 'DELETE' && path) {
-			return handleDelete(request, env, path);
-		}
-
-		if (request.method === 'GET') {
-			if (path === '_list') {
-				return handleList(request, env);
+			if (request.method === 'POST') {
+				return handlePost(request, env, url);
 			}
-			if (path) {
-				return handleGet(env, path);
-			}
-			return new Response('mdrop', { status: 200 });
-		}
 
-		return new Response('Method not allowed', { status: 405 });
+			if (request.method === 'DELETE' && path) {
+				return handleDelete(request, env, path);
+			}
+
+			if (request.method === 'GET') {
+				if (path === '_list') {
+					return handleList(request, env);
+				}
+				if (path) {
+					return handleGet(env, path);
+				}
+				return new Response('mdrop', { status: 200 });
+			}
+
+			return new Response('Method not allowed', { status: 405 });
+		} catch (err) {
+			return new Response(JSON.stringify({ error: err.message }), {
+				status: 500,
+				headers: { 'Content-Type': 'application/json' },
+			});
+		}
 	},
 };
 
 async function handlePost(request, env, url) {
-	if (!authorize(request, env)) {
+	if (!(await authorize(request, env))) {
 		return new Response('Unauthorized', { status: 401 });
+	}
+
+	// Check body size before reading
+	const contentLength = parseInt(request.headers.get('Content-Length') || '0', 10);
+	if (contentLength > MAX_BODY_SIZE) {
+		return new Response('Payload too large (max 5 MB)', { status: 413 });
 	}
 
 	const html = await request.text();
 	if (!html) {
 		return new Response('Empty body', { status: 400 });
 	}
+	if (html.length > MAX_BODY_SIZE) {
+		return new Response('Payload too large (max 5 MB)', { status: 413 });
+	}
 
 	const id = crypto.randomUUID().slice(0, 8);
 	const ttlHeader = request.headers.get('X-TTL');
-	const title = request.headers.get('X-Title') || 'Untitled';
+	const titleRaw = request.headers.get('X-Title') || '';
+	const title = titleRaw ? decodeURIComponent(titleRaw) : 'Untitled';
 	const theme = request.headers.get('X-Theme') || 'clean';
 
 	const options = {};
@@ -49,10 +68,10 @@ async function handlePost(request, env, url) {
 	}
 
 	options.metadata = {
-		title,
+		title: title.slice(0, 200),
 		theme,
 		created: Date.now(),
-		size: html.length,
+		size: new TextEncoder().encode(html).length,
 	};
 
 	await env.PAGES.put(id, html, options);
@@ -77,7 +96,7 @@ async function handleGet(env, id) {
 }
 
 async function handleDelete(request, env, id) {
-	if (!authorize(request, env)) {
+	if (!(await authorize(request, env))) {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
@@ -88,7 +107,7 @@ async function handleDelete(request, env, id) {
 }
 
 async function handleList(request, env) {
-	if (!authorize(request, env)) {
+	if (!(await authorize(request, env))) {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
@@ -103,7 +122,17 @@ async function handleList(request, env) {
 	});
 }
 
-function authorize(request, env) {
-	const auth = request.headers.get('Authorization');
-	return auth === `Bearer ${env.API_KEY}`;
+async function authorize(request, env) {
+	const auth = request.headers.get('Authorization') || '';
+	const expected = `Bearer ${env.API_KEY}`;
+
+	if (auth.length !== expected.length) {
+		return false;
+	}
+
+	const encoder = new TextEncoder();
+	const a = encoder.encode(auth);
+	const b = encoder.encode(expected);
+
+	return crypto.subtle.timingSafeEqual(a, b);
 }
