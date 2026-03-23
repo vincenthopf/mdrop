@@ -1,7 +1,7 @@
 {
 	"name": "mdrop",
 	"version": "0.1.0",
-	"description": "Share markdown files as styled HTML pages",
+	"description": "Share markdown files as styled HTML pages. One command. Instant page.",
 	"type": "module",
 	"bin": {
 		"mdrop": "./bin/mdrop.js"
@@ -10,6 +10,22 @@
 		"bin/",
 		"src/"
 	],
+	"keywords": [
+		"markdown",
+		"share",
+		"html",
+		"cli",
+		"cloudflare-workers",
+		"themes"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/vincenthopf/mdrop.git",
+		"directory": "cli"
+	},
+	"homepage": "https://github.com/vincenthopf/mdrop",
+	"bugs": "https://github.com/vincenthopf/mdrop/issues",
+	"author": "Vincent Hopf",
 	"dependencies": {
 		"markdown-it": "^14.1.0",
 		"markdown-it-anchor": "^9.2.0",
