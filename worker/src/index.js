@@ -21,7 +21,7 @@ export default {
 				if (path) {
 					return handleGet(env, path);
 				}
-				return new Response('mdrop', { status: 200 });
+				return new Response('mDrop', { status: 200 });
 			}
 
 			return new Response('Method not allowed', { status: 405 });

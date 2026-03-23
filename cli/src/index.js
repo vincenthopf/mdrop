@@ -16,7 +16,7 @@ const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-
 const THEMES = ['clean', 'brutalist', 'terminal', 'academic', 'playful'];
 
 const HELP = `
-mdrop — share markdown files as styled HTML pages
+mDrop — share markdown files as styled HTML pages
 
 Usage:
   mdrop <file.md>                    Share with defaults (clean theme, 7d expiry)
@@ -44,7 +44,7 @@ async function main() {
 	});
 
 	if (values.version) {
-		console.log(`mdrop ${pkg.version}`);
+		console.log(`mDrop ${pkg.version}`);
 		return;
 	}
 
@@ -88,7 +88,7 @@ async function runInit() {
 	const rl = createInterface({ input: process.stdin, output: process.stdout });
 	const ask = (q) => new Promise((res) => rl.question(q, res));
 
-	console.log('mdrop setup\n');
+	console.log('mDrop setup\n');
 
 	const workerUrl = await ask('Worker URL (e.g., https://mdrop.your-subdomain.workers.dev): ');
 	const apiKey = await ask('API key: ');

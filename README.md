@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="site/public/images/mdrop-logo.png" alt="mdrop" width="120" height="120" />
+  <img src="site/public/images/mdrop-logo.png" alt="mDrop" width="120" height="120" />
 </p>
 
-<h1 align="center">mdrop</h1>
+<h1 align="center">mDrop</h1>
 
 <p align="center">
   <strong>One command. Instant page.</strong><br />
@@ -15,14 +15,14 @@
 </p>
 
 <p align="center">
-  <img src="site/public/images/mdrop-transform.png" alt="mdrop transforms markdown into styled webpages" width="700" />
+  <img src="site/public/images/mdrop-transform.png" alt="mDrop transforms markdown into styled webpages" width="700" />
 </p>
 
 ---
 
-## What is mdrop?
+## What is mDrop?
 
-mdrop is a CLI tool that takes a markdown file, renders it as a beautifully styled HTML page, and gives you a shareable URL — all in one command.
+mDrop is a CLI tool that takes a markdown file, renders it as a beautifully styled HTML page, and gives you a shareable URL — all in one command.
 
 ```bash
 $ mdrop README.md --theme brutalist
@@ -42,7 +42,7 @@ https://mdrop.workers.dev/a1b2c3d4
 
 ### 1. Deploy the Worker
 
-Click the button to deploy mdrop to your Cloudflare account:
+Click the button to deploy mDrop to your Cloudflare account:
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/vincenthopf/mdrop/tree/main/worker)
 
@@ -81,7 +81,7 @@ mdrop file.md --expires never          # Permanent link
 Choose a theme with `--theme <name>`. Every page is fully self-contained — CSS inlined, zero external requests.
 
 <p align="center">
-  <img src="site/public/images/mdrop-themes.png" alt="mdrop themes: Clean, Brutalist, Terminal, Academic, Playful" width="700" />
+  <img src="site/public/images/mdrop-themes.png" alt="mDrop themes: Clean, Brutalist, Terminal, Academic, Playful" width="700" />
 </p>
 
 | Theme | Flag | Description |
@@ -113,10 +113,10 @@ Choose a theme with `--theme <name>`. Every page is fully self-contained — CSS
 ## Architecture
 
 <p align="center">
-  <img src="site/public/images/mdrop-hero-banner.png" alt="mdrop architecture overview" width="700" />
+  <img src="site/public/images/mdrop-hero-banner.png" alt="mDrop architecture overview" width="700" />
 </p>
 
-mdrop is two things:
+mDrop is two things:
 
 1. **CLI** (Node.js) — Parses markdown with [markdown-it](https://github.com/markdown-it/markdown-it), highlights code with [Shiki](https://shiki.style/), wraps in themed HTML, uploads.
 2. **Worker** (~50 lines of JS) — Stores HTML in Cloudflare KV, serves it. That's it.
@@ -124,7 +124,7 @@ mdrop is two things:
 All rendering happens on your machine. The Worker is a trivial static file server. Deploy it once, push content forever — no rebuilds.
 
 <p align="center">
-  <img src="site/public/images/mdrop-architecture.png" alt="mdrop data flow: CLI → Worker → KV → Browser" width="600" />
+  <img src="site/public/images/mdrop-architecture.png" alt="mDrop data flow: CLI → Worker → KV → Browser" width="600" />
 </p>
 
 ### Tech Stack

@@ -142,7 +142,7 @@ ${FLOATING_UI_CSS}
 ${content}
 </article>
 <footer class="mdrop-footer">
-<span>shared via <a href="https://github.com/vincenthopf/mdrop">mdrop</a></span>
+<span>shared via <a href="https://github.com/vincenthopf/mdrop">mDrop</a></span>
 </footer>
 ${FLOATING_UI_HTML}
 ${FLOATING_UI_JS}

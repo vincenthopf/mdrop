@@ -1,7 +1,7 @@
 {
 	"name": "mdrop",
 	"version": "0.1.0",
-	"description": "Share markdown files as styled HTML pages. One command. Instant page.",
+	"description": "mDrop — share markdown files as styled HTML pages. One command. Instant page.",
 	"type": "module",
 	"bin": {
 		"mdrop": "./bin/mdrop.js"
