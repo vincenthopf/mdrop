@@ -151,10 +151,21 @@ All rendering happens on your machine. The Worker is a trivial static file serve
 If you prefer manual setup over the deploy button:
 
 ```bash
+# Authenticate with Cloudflare (one-time)
+wrangler login
+
+# Clone and enter the worker directory
 git clone https://github.com/vincenthopf/mdrop
 cd mdrop/worker
+
+# Create a KV namespace and copy the ID
 wrangler kv namespace create "PAGES"
-# Add the namespace ID to wrangler.toml
+# Output: { id: "your-namespace-id" }
+
+# Uncomment the [[kv_namespaces]] block in wrangler.toml
+# and paste the namespace ID
+
+# Set your API key and deploy
 wrangler secret put API_KEY
 wrangler deploy
 ```

@@ -2,6 +2,9 @@ name = "mdrop"
 main = "src/index.js"
 compatibility_date = "2024-12-01"
 
-[[kv_namespaces]]
-binding = "PAGES"
-id = ""
+# After running: wrangler kv namespace create "PAGES"
+# Uncomment and paste the namespace ID below:
+#
+# [[kv_namespaces]]
+# binding = "PAGES"
+# id = "your-namespace-id-here"
