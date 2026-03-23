@@ -1,0 +1,9 @@
+packages:
+  - cli
+  - worker
+  - site
+
+ignoredBuiltDependencies:
+  - esbuild
+  - sharp
+  - workerd

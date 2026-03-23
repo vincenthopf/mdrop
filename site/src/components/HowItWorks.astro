@@ -1,0 +1,58 @@
+---
+const steps = [
+	{
+		num: '01',
+		title: 'Render',
+		desc: 'Your machine does the heavy lifting. markdown-it parses, shiki highlights, and your chosen theme wraps everything in clean, self-contained HTML.',
+	},
+	{
+		num: '02',
+		title: 'Push',
+		desc: 'One authenticated POST to your Cloudflare Worker. Set an expiry or make it permanent. No rebuilds. No pipelines.',
+	},
+	{
+		num: '03',
+		title: 'Share',
+		desc: 'Get a URL back instantly. Zero JavaScript on the page. Fast everywhere. Works on any device.',
+	},
+];
+---
+
+<section class="py-24 border-t-2 border-border" id="how">
+	<div class="max-w-7xl mx-auto px-6">
+		<div class="text-center mb-16" data-animate="fade-up">
+			<span class="block text-xs font-bold tracking-widest text-accent mb-3">/02 UNDER THE HOOD</span>
+			<h2 class="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-none text-white">
+				Simple by Design
+			</h2>
+			<p class="mt-4 text-fg-muted max-w-lg mx-auto">
+				Everything renders locally. The server is just a key-value store. No moving parts to break.
+			</p>
+		</div>
+
+		<div data-animate="fade-up" data-delay="0.1" class="max-w-4xl mx-auto mb-12">
+			<div class="border-2 border-border-heavy shadow-[8px_8px_0_var(--color-accent)]">
+				<img
+					src="/images/mdrop-hero-banner.png"
+					alt="mdrop architecture: CLI renders markdown, posts to Cloudflare Worker, stores in KV, browser fetches rendered page"
+					class="w-full block"
+					loading="lazy"
+				/>
+			</div>
+		</div>
+
+		<div class="grid md:grid-cols-3 gap-6 mt-12">
+			{steps.map((step, i) => (
+				<div
+					data-animate="fade-up"
+					data-delay={String(0.1 * (i + 1))}
+					class="bg-bg-card border-2 border-border p-8 transition-all duration-200 hover:border-accent hover:shadow-[6px_6px_0_var(--color-accent)] hover:-translate-x-0.5 hover:-translate-y-0.5"
+				>
+					<span class="block text-[0.7rem] text-accent font-bold tracking-widest mb-4">/{step.num}</span>
+					<h3 class="text-lg font-black uppercase text-white mb-3">{step.title}</h3>
+					<p class="text-sm text-fg-muted leading-relaxed">{step.desc}</p>
+				</div>
+			))}
+		</div>
+	</div>
+</section>

@@ -1,0 +1,232 @@
+/* mdrop — Clean theme
+   Minimal, readable, Medium/iA Writer inspired.
+   System sans-serif, generous whitespace, subtle borders. */
+
+:root {
+	--bg: #ffffff;
+	--fg: #1a1a1a;
+	--fg-muted: #6b7280;
+	--border: #e5e7eb;
+	--accent: #2563eb;
+	--accent-hover: #1d4ed8;
+	--code-bg: #f9fafb;
+	--blockquote-border: #d1d5db;
+	--blockquote-bg: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #111111;
+		--fg: #e5e5e5;
+		--fg-muted: #9ca3af;
+		--border: #2a2a2a;
+		--accent: #60a5fa;
+		--accent-hover: #93bbfd;
+		--code-bg: #1a1a1a;
+		--blockquote-border: #404040;
+	}
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 17px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	margin: 0;
+	padding: 2rem 1.5rem;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+	line-height: 1.7;
+}
+
+.mdrop-article {
+	max-width: 68ch;
+	margin: 0 auto;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.3;
+	margin-top: 2.5rem;
+	margin-bottom: 0.75rem;
+	font-weight: 700;
+}
+
+h1 { font-size: 2.25rem; margin-top: 0; }
+h2 { font-size: 1.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.1rem; }
+
+p { margin: 0 0 1.25rem; }
+
+a {
+	color: var(--accent);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+a:hover { color: var(--accent-hover); }
+
+/* Lists */
+ul, ol {
+	margin: 0 0 1.25rem;
+	padding-left: 1.5rem;
+}
+li { margin-bottom: 0.25rem; }
+li > ul, li > ol { margin-bottom: 0; }
+
+/* Task lists */
+.task-list-item {
+	list-style: none;
+	margin-left: -1.5rem;
+	padding-left: 0;
+}
+.task-list-item input[type="checkbox"] {
+	margin-right: 0.5rem;
+}
+
+/* Code */
+code {
+	font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
+	font-size: 0.875em;
+	background: var(--code-bg);
+	padding: 0.15em 0.35em;
+	border-radius: 4px;
+}
+
+pre {
+	margin: 0 0 1.5rem;
+	border-radius: 8px;
+	overflow-x: auto;
+}
+
+/* shiki generates its own pre/code — style the container */
+pre:has(code) {
+	padding: 0;
+}
+
+.shiki {
+	padding: 1rem 1.25rem;
+	border-radius: 8px;
+	font-size: 0.85rem;
+	line-height: 1.6;
+	overflow-x: auto;
+}
+
+.shiki code {
+	background: none;
+	padding: 0;
+	border-radius: 0;
+	font-size: inherit;
+}
+
+/* Dual theme support for shiki */
+.shiki.shiki-themes {
+	background-color: var(--code-bg) !important;
+}
+.shiki span {
+	color: var(--shiki-light);
+}
+@media (prefers-color-scheme: dark) {
+	.shiki span {
+		color: var(--shiki-dark) !important;
+	}
+	.shiki.shiki-themes {
+		background-color: var(--code-bg) !important;
+	}
+}
+
+/* Blockquotes */
+blockquote {
+	margin: 0 0 1.25rem;
+	padding: 0.5rem 1rem;
+	border-left: 3px solid var(--blockquote-border);
+	color: var(--fg-muted);
+	background: var(--blockquote-bg);
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+/* Tables */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 0 0 1.5rem;
+	font-size: 0.9rem;
+}
+th, td {
+	padding: 0.6rem 0.8rem;
+	text-align: left;
+	border-bottom: 1px solid var(--border);
+}
+th {
+	font-weight: 600;
+	border-bottom: 2px solid var(--border);
+}
+
+/* Horizontal rule */
+hr {
+	border: none;
+	border-top: 1px solid var(--border);
+	margin: 2rem 0;
+}
+
+/* Images */
+img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+
+/* TOC */
+.mdrop-toc {
+	margin-bottom: 2rem;
+	padding: 1rem 1.25rem;
+	background: var(--code-bg);
+	border-radius: 8px;
+	font-size: 0.9rem;
+}
+.mdrop-toc ul {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+}
+.mdrop-toc ul ul {
+	padding-left: 1.25rem;
+}
+.mdrop-toc li {
+	margin-bottom: 0.3rem;
+}
+.mdrop-toc a {
+	color: var(--fg-muted);
+	text-decoration: none;
+}
+.mdrop-toc a:hover {
+	color: var(--accent);
+}
+
+/* Footer */
+.mdrop-footer {
+	max-width: 68ch;
+	margin: 3rem auto 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--border);
+	font-size: 0.8rem;
+	color: var(--fg-muted);
+}
+.mdrop-footer a {
+	color: var(--fg-muted);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+	html { font-size: 16px; }
+	body { padding: 1.25rem 1rem; }
+	h1 { font-size: 1.75rem; }
+	h2 { font-size: 1.35rem; }
+}

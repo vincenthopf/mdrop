@@ -1,0 +1,254 @@
+/* mdrop — Neo Brutalist theme
+   Inspired by lawn.video. Hard borders, monospace,
+   offset block shadows, warm off-white + forest green. */
+
+:root {
+	--bg: #f0f0e8;
+	--fg: #1a1a1a;
+	--fg-muted: #888888;
+	--border: #1a1a1a;
+	--accent: #2d5a2d;
+	--accent-light: #7cb87c;
+	--code-bg: #1a1a1a;
+	--code-fg: #f0f0e8;
+	--shadow: #1a1a1a;
+	--shadow-accent: #2d5a2d;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 16px;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	margin: 0;
+	padding: 3rem 1.5rem;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+	line-height: 1.65;
+}
+
+.mdrop-article {
+	max-width: 72ch;
+	margin: 0 auto;
+}
+
+::selection {
+	background: var(--accent-light);
+	color: var(--fg);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: -0.03em;
+	line-height: 1.1;
+	margin-top: 3rem;
+	margin-bottom: 1rem;
+}
+
+h1 {
+	font-size: 3rem;
+	margin-top: 0;
+	padding-bottom: 1rem;
+	border-bottom: 3px solid var(--fg);
+}
+
+h2 {
+	font-size: 2rem;
+	padding: 0.5rem 0;
+	border-bottom: 2px solid var(--fg);
+}
+
+h3 { font-size: 1.4rem; }
+h4 { font-size: 1.1rem; }
+
+p { margin: 0 0 1.25rem; }
+
+a {
+	color: var(--accent);
+	text-decoration: underline;
+	text-underline-offset: 4px;
+	text-decoration-thickness: 2px;
+	font-weight: 700;
+}
+a:hover {
+	color: var(--fg);
+	background: var(--accent-light);
+}
+
+strong { font-weight: 900; }
+
+/* Lists */
+ul, ol {
+	margin: 0 0 1.25rem;
+	padding-left: 1.5rem;
+}
+li { margin-bottom: 0.35rem; }
+
+/* Task lists */
+.task-list-item {
+	list-style: none;
+	margin-left: -1.5rem;
+}
+.task-list-item input[type="checkbox"] {
+	margin-right: 0.5rem;
+	accent-color: var(--accent);
+}
+
+/* Code */
+code {
+	font-family: inherit;
+	font-size: 0.9em;
+	background: var(--code-bg);
+	color: var(--code-fg);
+	padding: 0.2em 0.4em;
+	border: 2px solid var(--fg);
+}
+
+pre {
+	margin: 0 0 1.5rem;
+	overflow-x: auto;
+}
+
+.shiki {
+	padding: 1.25rem;
+	font-size: 0.85rem;
+	line-height: 1.6;
+	overflow-x: auto;
+	border: 2px solid var(--fg);
+	box-shadow: 6px 6px 0 var(--shadow);
+	background: var(--code-bg) !important;
+}
+
+.shiki code {
+	background: none;
+	padding: 0;
+	border: none;
+	color: inherit;
+}
+
+/* Force dark code theme since the code bg is dark */
+.shiki span {
+	color: var(--shiki-dark) !important;
+}
+
+/* Blockquotes */
+blockquote {
+	margin: 0 0 1.5rem;
+	padding: 1rem 1.25rem;
+	border: 2px solid var(--fg);
+	border-left: 6px solid var(--accent);
+	box-shadow: 4px 4px 0 var(--shadow-accent);
+	background: var(--bg);
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+/* Tables */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 0 0 1.5rem;
+	font-size: 0.9rem;
+	border: 2px solid var(--fg);
+}
+th, td {
+	padding: 0.6rem 0.8rem;
+	text-align: left;
+	border: 1px solid var(--fg);
+}
+th {
+	font-weight: 900;
+	text-transform: uppercase;
+	font-size: 0.8rem;
+	letter-spacing: 0.05em;
+	background: var(--fg);
+	color: var(--bg);
+}
+
+/* Horizontal rule */
+hr {
+	border: none;
+	border-top: 3px solid var(--fg);
+	margin: 2.5rem 0;
+}
+
+/* Images */
+img {
+	max-width: 100%;
+	height: auto;
+	border: 2px solid var(--fg);
+	box-shadow: 6px 6px 0 var(--shadow);
+}
+
+/* TOC */
+.mdrop-toc {
+	margin-bottom: 2.5rem;
+	padding: 1.25rem;
+	border: 2px solid var(--fg);
+	box-shadow: 6px 6px 0 var(--shadow-accent);
+}
+.mdrop-toc::before {
+	content: '/CONTENTS';
+	display: block;
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: 0.75rem;
+	font-size: 0.8rem;
+}
+.mdrop-toc ul {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+}
+.mdrop-toc ul ul {
+	padding-left: 1.25rem;
+}
+.mdrop-toc li {
+	margin-bottom: 0.3rem;
+}
+.mdrop-toc li::before {
+	content: '→ ';
+	color: var(--accent);
+}
+.mdrop-toc a {
+	color: var(--fg);
+	text-decoration: none;
+	font-weight: 700;
+}
+.mdrop-toc a:hover {
+	background: var(--accent-light);
+}
+
+/* Footer */
+.mdrop-footer {
+	max-width: 72ch;
+	margin: 3rem auto 1rem;
+	padding-top: 1rem;
+	border-top: 2px solid var(--fg);
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--fg-muted);
+}
+.mdrop-footer a {
+	color: var(--fg-muted);
+	font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+	body { padding: 2rem 1rem; }
+	h1 { font-size: 2rem; }
+	h2 { font-size: 1.5rem; }
+	.shiki, img, blockquote {
+		box-shadow: 4px 4px 0 var(--shadow);
+	}
+}

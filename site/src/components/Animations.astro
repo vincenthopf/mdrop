@@ -1,0 +1,97 @@
+---
+---
+
+<script>
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	// Set all animated elements to hidden immediately (no Tailwind opacity-0 needed)
+	gsap.set('[data-animate]', { opacity: 0 });
+
+	// Animate elements on scroll
+	document.querySelectorAll('[data-animate]').forEach((el) => {
+		const type = el.getAttribute('data-animate');
+		const delay = parseFloat(el.getAttribute('data-delay') || '0');
+
+		const fromVars: gsap.TweenVars = { opacity: 0 };
+		const toVars: gsap.TweenVars = {
+			opacity: 1,
+			duration: 0.8,
+			ease: 'power3.out',
+			delay,
+		};
+
+		switch (type) {
+			case 'fade-up':
+				fromVars.y = 40;
+				toVars.y = 0;
+				break;
+			case 'fade-down':
+				fromVars.y = -30;
+				toVars.y = 0;
+				break;
+			case 'fade-left':
+				fromVars.x = -40;
+				toVars.x = 0;
+				break;
+			case 'fade-right':
+				fromVars.x = 40;
+				toVars.x = 0;
+				break;
+		}
+
+		gsap.fromTo(el, fromVars, {
+			...toVars,
+			scrollTrigger: {
+				trigger: el,
+				start: 'top 88%',
+				once: true,
+			},
+		});
+	});
+
+	// Terminal typing effect in hero
+	const terminalLines = document.querySelectorAll('#hero .space-y-2 > div');
+	if (terminalLines.length) {
+		gsap.set(terminalLines, { opacity: 0, x: -10 });
+		const tl = gsap.timeline({ delay: 1.2 });
+		terminalLines.forEach((line, i) => {
+			tl.to(line, {
+				opacity: 1,
+				x: 0,
+				duration: 0.25,
+				ease: 'power2.out',
+			}, i * 0.12);
+		});
+	}
+
+	// Parallax glow on hero
+	const glow = document.querySelector('#hero > div:first-child');
+	if (glow) {
+		gsap.to(glow, {
+			y: 100,
+			scrollTrigger: {
+				trigger: '#hero',
+				start: 'top top',
+				end: 'bottom top',
+				scrub: 1,
+			},
+		});
+	}
+
+	// Stagger nav links
+	const navLinks = document.querySelectorAll('nav li');
+	if (navLinks.length) {
+		gsap.set(navLinks, { opacity: 0, y: -15 });
+		gsap.to(navLinks, {
+			opacity: 1,
+			y: 0,
+			duration: 0.4,
+			stagger: 0.08,
+			ease: 'power2.out',
+			delay: 0.3,
+		});
+	}
+</script>

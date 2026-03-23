@@ -1,0 +1,24 @@
+{
+	"name": "mdrop",
+	"version": "0.1.0",
+	"description": "Share markdown files as styled HTML pages",
+	"type": "module",
+	"bin": {
+		"mdrop": "./bin/mdrop.js"
+	},
+	"files": [
+		"bin/",
+		"src/"
+	],
+	"dependencies": {
+		"markdown-it": "^14.1.0",
+		"markdown-it-anchor": "^9.2.0",
+		"markdown-it-task-lists": "^2.1.1",
+		"markdown-it-toc-done-right": "^4.2.0",
+		"shiki": "^3.0.0"
+	},
+	"engines": {
+		"node": ">=18.3.0"
+	},
+	"license": "MIT"
+}

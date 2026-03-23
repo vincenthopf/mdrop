@@ -1,0 +1,276 @@
+/* mdrop — Playful theme
+   Rounded corners, colorful accents, friendly feel.
+   Card-like sections, rotating hue per heading level. */
+
+:root {
+	--bg: #fafafa;
+	--fg: #2d2d2d;
+	--fg-muted: #888888;
+	--border: #e0e0e0;
+	--h1-color: #6366f1;
+	--h2-color: #ec4899;
+	--h3-color: #f59e0b;
+	--h4-color: #10b981;
+	--accent: #6366f1;
+	--accent-hover: #4f46e5;
+	--code-bg: #f0f0ff;
+	--card-bg: #ffffff;
+	--card-shadow: rgba(99, 102, 241, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #18181b;
+		--fg: #e4e4e7;
+		--fg-muted: #a1a1aa;
+		--border: #2e2e33;
+		--h1-color: #818cf8;
+		--h2-color: #f472b6;
+		--h3-color: #fbbf24;
+		--h4-color: #34d399;
+		--accent: #818cf8;
+		--accent-hover: #a5b4fc;
+		--code-bg: #1e1e2e;
+		--card-bg: #1e1e22;
+		--card-shadow: rgba(0, 0, 0, 0.2);
+	}
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 17px;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	margin: 0;
+	padding: 2rem 1.5rem;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+	line-height: 1.7;
+}
+
+.mdrop-article {
+	max-width: 68ch;
+	margin: 0 auto;
+	background: var(--card-bg);
+	padding: 2.5rem 3rem;
+	border-radius: 20px;
+	box-shadow: 0 4px 24px var(--card-shadow);
+}
+
+/* Typography — colorful headings */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 800;
+	line-height: 1.25;
+	margin-top: 2.5rem;
+	margin-bottom: 0.75rem;
+}
+
+h1 {
+	font-size: 2.5rem;
+	margin-top: 0;
+	color: var(--h1-color);
+	letter-spacing: -0.02em;
+}
+
+h2 {
+	font-size: 1.6rem;
+	color: var(--h2-color);
+}
+
+h3 {
+	font-size: 1.3rem;
+	color: var(--h3-color);
+}
+
+h4 {
+	font-size: 1.1rem;
+	color: var(--h4-color);
+}
+
+p { margin: 0 0 1.25rem; }
+
+a {
+	color: var(--accent);
+	text-decoration: none;
+	font-weight: 600;
+	border-radius: 2px;
+}
+a:hover {
+	color: var(--accent-hover);
+	text-decoration: underline;
+	text-decoration-style: wavy;
+	text-underline-offset: 3px;
+}
+
+/* Lists */
+ul, ol {
+	margin: 0 0 1.25rem;
+	padding-left: 1.5rem;
+}
+li { margin-bottom: 0.3rem; }
+
+/* Task lists */
+.task-list-item {
+	list-style: none;
+	margin-left: -1.5rem;
+}
+.task-list-item input[type="checkbox"] {
+	margin-right: 0.5rem;
+	accent-color: var(--accent);
+}
+
+/* Code */
+code {
+	font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+	font-size: 0.85em;
+	background: var(--code-bg);
+	padding: 0.2em 0.45em;
+	border-radius: 6px;
+	color: var(--accent);
+}
+
+pre {
+	margin: 0 0 1.5rem;
+	overflow-x: auto;
+}
+
+.shiki {
+	padding: 1.25rem;
+	border-radius: 14px;
+	font-size: 0.85rem;
+	line-height: 1.6;
+	overflow-x: auto;
+}
+
+.shiki code {
+	background: none;
+	padding: 0;
+	border-radius: 0;
+	color: inherit;
+}
+
+.shiki.shiki-themes {
+	background-color: var(--code-bg) !important;
+}
+.shiki span { color: var(--shiki-light); }
+@media (prefers-color-scheme: dark) {
+	.shiki span { color: var(--shiki-dark) !important; }
+	.shiki.shiki-themes { background-color: var(--code-bg) !important; }
+}
+
+/* Blockquotes */
+blockquote {
+	margin: 0 0 1.25rem;
+	padding: 1rem 1.25rem;
+	background: var(--code-bg);
+	border-radius: 12px;
+	border-left: 4px solid var(--accent);
+	color: var(--fg-muted);
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+/* Tables */
+table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	margin: 0 0 1.5rem;
+	font-size: 0.9rem;
+	border-radius: 12px;
+	overflow: hidden;
+	border: 1px solid var(--border);
+}
+th, td {
+	padding: 0.6rem 0.8rem;
+	text-align: left;
+}
+th {
+	font-weight: 700;
+	background: var(--code-bg);
+}
+td {
+	border-top: 1px solid var(--border);
+}
+
+/* Horizontal rule */
+hr {
+	border: none;
+	margin: 2.5rem auto;
+	width: 4rem;
+	height: 4px;
+	background: linear-gradient(90deg, var(--h1-color), var(--h2-color), var(--h3-color));
+	border-radius: 2px;
+}
+
+/* Images */
+img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 12px;
+}
+
+/* TOC */
+.mdrop-toc {
+	margin-bottom: 2rem;
+	padding: 1.25rem 1.5rem;
+	background: var(--code-bg);
+	border-radius: 14px;
+	font-size: 0.9rem;
+}
+.mdrop-toc::before {
+	content: '📑 Table of Contents';
+	display: block;
+	font-weight: 700;
+	margin-bottom: 0.75rem;
+	font-size: 0.85rem;
+	color: var(--fg-muted);
+}
+.mdrop-toc ul {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+}
+.mdrop-toc ul ul {
+	padding-left: 1.25rem;
+}
+.mdrop-toc li {
+	margin-bottom: 0.3rem;
+}
+.mdrop-toc a {
+	color: var(--fg);
+	text-decoration: none;
+	font-weight: 500;
+}
+.mdrop-toc a:hover {
+	color: var(--accent);
+}
+
+/* Footer */
+.mdrop-footer {
+	max-width: 68ch;
+	margin: 2rem auto 1rem;
+	text-align: center;
+	font-size: 0.8rem;
+	color: var(--fg-muted);
+}
+.mdrop-footer a {
+	color: var(--fg-muted);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+	html { font-size: 16px; }
+	body { padding: 1rem 0.75rem; }
+	.mdrop-article {
+		padding: 1.75rem 1.5rem;
+		border-radius: 16px;
+	}
+	h1 { font-size: 1.9rem; }
+	h2 { font-size: 1.35rem; }
+}

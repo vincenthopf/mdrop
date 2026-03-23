@@ -1,0 +1,47 @@
+---
+const themes = [
+	{ name: 'Clean', desc: 'Minimal sans-serif. Light and dark mode. The safe choice that always looks good.' },
+	{ name: 'Brutalist', desc: 'Hard borders, offset shadows, monospace everything. For those who mean business.' },
+	{ name: 'Terminal', desc: 'Green on black with scanlines. Because some docs deserve the hacker treatment.' },
+	{ name: 'Academic', desc: 'Serif fonts on paper. LaTeX energy without the LaTeX pain.' },
+	{ name: 'Playful', desc: 'Rounded corners, color accents, wavy links. Friendly by default.' },
+];
+---
+
+<section class="py-24 border-t-2 border-border" id="themes">
+	<div class="max-w-7xl mx-auto px-6">
+		<div class="text-center mb-16" data-animate="fade-up">
+			<span class="block text-xs font-bold tracking-widest text-accent mb-3">/03 THEMES</span>
+			<h2 class="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-none text-white">
+				Pick a Personality
+			</h2>
+			<p class="mt-4 text-fg-muted max-w-lg mx-auto">
+				Five built-in themes. Choose with a flag. Every page is fully self-contained — CSS inlined, zero external requests.
+			</p>
+		</div>
+
+		<div data-animate="fade-up" data-delay="0.1" class="max-w-5xl mx-auto mb-12">
+			<div class="border-2 border-border-heavy shadow-[8px_8px_0_var(--color-accent)]">
+				<img
+					src="/images/mdrop-themes.png"
+					alt="Five mdrop themes: Clean, Brutalist, Terminal, Academic, Playful"
+					class="w-full block"
+					loading="lazy"
+				/>
+			</div>
+		</div>
+
+		<div class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-12">
+			{themes.map((theme, i) => (
+				<div
+					data-animate="fade-up"
+					data-delay={String(0.05 * (i + 1))}
+					class="border-2 border-border p-5 text-center transition-all duration-200 hover:border-accent hover:shadow-[4px_4px_0_var(--color-accent)] hover:-translate-x-0.5 hover:-translate-y-0.5"
+				>
+					<div class="text-sm font-black uppercase text-white tracking-wider mb-2">{theme.name}</div>
+					<div class="text-[0.7rem] text-fg-muted leading-relaxed">{theme.desc}</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>

@@ -1,0 +1,42 @@
+---
+const features = [
+	{ icon: '$_', title: 'CLI-First', desc: 'No browser. No dashboard. One command, one URL. Share from where you already work.' },
+	{ icon: '{}', title: 'Beautiful Code', desc: 'Shiki-powered syntax highlighting with VS Code accuracy. Inline styles — no JS on the page.' },
+	{ icon: '$0', title: 'Actually Free', desc: 'Runs on Cloudflare\'s free tier. 100K reads, 1K writes, 1GB storage. No credit card. No catch.' },
+	{ icon: '⏳', title: 'Links That Expire', desc: 'Set --expires 1h, 7d, or never. Powered by native KV TTL. No cron jobs cleaning up.' },
+	{ icon: '≡', title: 'Full GFM', desc: 'Tables, task lists, strikethrough, autolinks. Auto-generated table of contents baked in.' },
+	{ icon: '↗', title: 'You Own It', desc: 'Deploy to your own Cloudflare account. Your data, your domain, your rules. MIT licensed.' },
+];
+---
+
+<section class="py-24 border-t-2 border-border" id="features">
+	<div class="max-w-7xl mx-auto px-6">
+		<div class="text-center mb-16" data-animate="fade-up">
+			<span class="block text-xs font-bold tracking-widest text-accent mb-3">/04 FEATURES</span>
+			<h2 class="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-none text-white">
+				No Compromises
+			</h2>
+			<p class="mt-4 text-fg-muted max-w-lg mx-auto">
+				Built for developers who want sharing to be as simple as writing.
+			</p>
+		</div>
+
+		<div class="grid md:grid-cols-2 gap-5">
+			{features.map((feature, i) => (
+				<div
+					data-animate="fade-up"
+					data-delay={String(0.08 * (i + 1))}
+					class="flex gap-5 items-start bg-bg-card border-2 border-border p-8 transition-all duration-200 hover:border-accent"
+				>
+					<div class="shrink-0 w-11 h-11 border-2 border-accent flex items-center justify-center text-accent text-base font-bold">
+						{feature.icon}
+					</div>
+					<div>
+						<h3 class="text-sm font-black uppercase text-white mb-2">{feature.title}</h3>
+						<p class="text-sm text-fg-muted leading-relaxed">{feature.desc}</p>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
