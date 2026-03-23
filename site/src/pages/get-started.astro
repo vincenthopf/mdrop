@@ -40,10 +40,10 @@ import Animations from '../components/Animations.astro';
 						<span class="w-8 h-8 border-2 border-accent flex items-center justify-center text-accent text-xs font-bold">1</span>
 						<h2 class="text-xl font-black uppercase text-white">Deploy Your Worker</h2>
 					</div>
-					<p class="text-fg-muted text-sm mb-6 ml-11">
+					<p class="text-fg-muted text-sm mb-6 md:ml-11">
 						One click. Cloudflare creates your Worker, provisions KV storage, and prompts you for an API key. Everything in one flow.
 					</p>
-					<div class="ml-11 bg-bg-card border-2 border-border p-8 text-center mb-4">
+					<div class="md:ml-11 bg-bg-card border-2 border-border p-8 text-center mb-4">
 						<a
 							href="https://deploy.workers.cloudflare.com/?url=https://github.com/vincenthopf/mdrop/tree/main/worker"
 							target="_blank"
@@ -57,7 +57,7 @@ import Animations from '../components/Animations.astro';
 							/>
 						</a>
 					</div>
-					<div class="ml-11 bg-bg-code border border-border p-4 text-sm">
+					<div class="md:ml-11 bg-bg-code border border-border p-4 text-sm">
 						<p class="text-fg-muted mb-2">During deploy, you'll be asked to:</p>
 						<ul class="text-fg-muted space-y-1 list-none">
 							<li><span class="text-accent mr-2">→</span>Choose a Worker name (or keep "mdrop")</li>
@@ -73,7 +73,7 @@ import Animations from '../components/Animations.astro';
 						<span class="w-8 h-8 border-2 border-accent flex items-center justify-center text-accent text-xs font-bold">2</span>
 						<h2 class="text-xl font-black uppercase text-white">Install the CLI</h2>
 					</div>
-					<div class="ml-11 bg-bg-code border-2 border-border p-5">
+					<div class="md:ml-11 bg-bg-code border-2 border-border p-5 overflow-x-auto">
 						<pre class="text-sm leading-relaxed"><span class="text-accent-light">npm install -g mdrop</span></pre>
 					</div>
 				</div>
@@ -84,7 +84,7 @@ import Animations from '../components/Animations.astro';
 						<span class="w-8 h-8 border-2 border-accent flex items-center justify-center text-accent text-xs font-bold">3</span>
 						<h2 class="text-xl font-black uppercase text-white">Connect &amp; Share</h2>
 					</div>
-					<div class="ml-11 bg-bg-code border-2 border-border p-5">
+					<div class="md:ml-11 bg-bg-code border-2 border-border p-5 overflow-x-auto">
 						<pre class="text-sm leading-relaxed"><span class="text-fg-muted"># Point the CLI at your Worker</span>
 <span class="text-accent-light">mdrop init</span>
 <span class="text-fg-muted"># Paste your Worker URL and the API key you chose</span>
@@ -101,7 +101,7 @@ import Animations from '../components/Animations.astro';
 						<span class="w-8 h-8 border-2 border-border flex items-center justify-center text-fg-muted text-xs font-bold">+</span>
 						<h2 class="text-lg font-black uppercase text-fg-muted">Custom Domain (optional)</h2>
 					</div>
-					<div class="ml-11 text-sm text-fg-muted space-y-2">
+					<div class="md:ml-11 text-sm text-fg-muted space-y-2">
 						<p>Want pages at <code class="text-accent-light bg-bg-code px-1.5 py-0.5 text-xs">share.yourdomain.com</code>?</p>
 						<ol class="list-decimal list-inside space-y-1">
 							<li>Go to Workers &amp; Pages → your mDrop Worker → Settings → Domains &amp; Routes</li>
@@ -115,7 +115,7 @@ import Animations from '../components/Animations.astro';
 				<!-- Usage Reference -->
 				<div class="border-t-2 border-border pt-12">
 					<h2 class="text-xl font-black uppercase text-white mb-6">Quick Reference</h2>
-					<div class="bg-bg-code border-2 border-border p-5">
+					<div class="bg-bg-code border-2 border-border p-5 overflow-x-auto">
 						<pre class="text-sm leading-relaxed"><span class="text-fg-muted"># Themes</span>
 <span class="text-accent-light">mdrop file.md --theme clean</span>       <span class="text-fg-muted"># minimal sans-serif (default)</span>
 <span class="text-accent-light">mdrop file.md --theme brutalist</span>   <span class="text-fg-muted"># hard borders, monospace</span>
@@ -143,7 +143,7 @@ import Animations from '../components/Animations.astro';
 					<p class="text-fg-muted text-sm mb-6">
 						The mDrop agent skill lets Claude Code handle everything — setup, deploy, and sharing. One command installs it.
 					</p>
-					<div class="bg-bg-code border-2 border-border-heavy shadow-[6px_6px_0_var(--color-accent)] p-5 mb-4">
+					<div class="bg-bg-code border-2 border-border-heavy shadow-[6px_6px_0_var(--color-accent)] p-5 mb-4 overflow-x-auto">
 						<pre class="text-sm leading-relaxed"><span class="text-accent-light">curl -fsSL https://raw.githubusercontent.com/vincenthopf/mdrop/main/skill/install.sh | bash</span></pre>
 					</div>
 					<p class="text-fg-muted text-xs">
@@ -187,7 +187,7 @@ import Animations from '../components/Animations.astro';
 					<p class="text-fg-muted text-sm mb-4">
 						On Windows (PowerShell or WSL), clone manually and copy the skill file:
 					</p>
-					<div class="bg-bg-code border-2 border-border p-5">
+					<div class="bg-bg-code border-2 border-border p-5 overflow-x-auto">
 						<pre class="text-sm leading-relaxed"><span class="text-fg-muted"># PowerShell</span>
 <span class="text-accent-light">git clone https://github.com/vincenthopf/mdrop $env:USERPROFILE\.agents\mdrop</span>
 <span class="text-accent-light">Copy-Item $env:USERPROFILE\.agents\mdrop\skill\mdrop.md $env:USERPROFILE\.claude\skills\mdrop.md</span></pre>
