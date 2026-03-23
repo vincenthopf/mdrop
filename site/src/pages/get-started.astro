@@ -1,0 +1,226 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Animations from '../components/Animations.astro';
+---
+
+<Layout title="Get Started — mDrop">
+	<Nav />
+	<main class="pt-24 pb-16">
+		<div class="max-w-3xl mx-auto px-6">
+
+			<!-- Header -->
+			<div class="text-center mb-16" data-animate="fade-up">
+				<span class="block text-xs font-bold tracking-widest text-accent mb-3">GET STARTED</span>
+				<h1 class="text-4xl md:text-5xl font-black uppercase tracking-tight leading-none text-white mb-4">
+					Up and Running<br />in Minutes
+				</h1>
+				<p class="text-fg-muted max-w-lg mx-auto">
+					Two paths: do it yourself in 3 steps, or let the Claude Code agent skill handle it for you.
+				</p>
+			</div>
+
+			<!-- Path Toggle -->
+			<div class="flex justify-center gap-4 mb-12" data-animate="fade-up" data-delay="0.1">
+				<button id="tab-manual" class="px-6 py-2.5 border-2 border-accent bg-accent text-white text-xs font-bold uppercase tracking-wider transition-all" onclick="showTab('manual')">
+					Manual Setup
+				</button>
+				<button id="tab-skill" class="px-6 py-2.5 border-2 border-border text-fg-muted text-xs font-bold uppercase tracking-wider transition-all hover:border-accent" onclick="showTab('skill')">
+					Agent Skill
+				</button>
+			</div>
+
+			<!-- Manual Setup -->
+			<div id="content-manual" data-animate="fade-up" data-delay="0.2">
+
+				<!-- Step 1 -->
+				<div class="mb-12">
+					<div class="flex items-center gap-3 mb-4">
+						<span class="w-8 h-8 border-2 border-accent flex items-center justify-center text-accent text-xs font-bold">1</span>
+						<h2 class="text-xl font-black uppercase text-white">Deploy Your Worker</h2>
+					</div>
+					<p class="text-fg-muted text-sm mb-6 ml-11">
+						One click. Cloudflare creates your Worker, provisions KV storage, and prompts you for an API key. Everything in one flow.
+					</p>
+					<div class="ml-11 bg-bg-card border-2 border-border p-8 text-center mb-4">
+						<a
+							href="https://deploy.workers.cloudflare.com/?url=https://github.com/vincenthopf/mdrop/tree/main/worker"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-block"
+						>
+							<img
+								src="https://deploy.workers.cloudflare.com/button"
+								alt="Deploy to Cloudflare Workers"
+								class="h-12"
+							/>
+						</a>
+					</div>
+					<div class="ml-11 bg-bg-code border border-border p-4 text-sm">
+						<p class="text-fg-muted mb-2">During deploy, you'll be asked to:</p>
+						<ul class="text-fg-muted space-y-1 list-none">
+							<li><span class="text-accent mr-2">→</span>Choose a Worker name (or keep "mdrop")</li>
+							<li><span class="text-accent mr-2">→</span>Set your <code class="text-accent-light bg-bg px-1.5 py-0.5 text-xs">API_KEY</code> — pick any strong string and save it</li>
+						</ul>
+						<p class="text-fg-muted mt-3">After deploy, copy your Worker URL (e.g., <code class="text-accent-light bg-bg px-1.5 py-0.5 text-xs">https://mdrop.username.workers.dev</code>)</p>
+					</div>
+				</div>
+
+				<!-- Step 2 -->
+				<div class="mb-12">
+					<div class="flex items-center gap-3 mb-4">
+						<span class="w-8 h-8 border-2 border-accent flex items-center justify-center text-accent text-xs font-bold">2</span>
+						<h2 class="text-xl font-black uppercase text-white">Install the CLI</h2>
+					</div>
+					<div class="ml-11 bg-bg-code border-2 border-border p-5">
+						<pre class="text-sm leading-relaxed"><span class="text-accent-light">npm install -g mdrop</span></pre>
+					</div>
+				</div>
+
+				<!-- Step 3 -->
+				<div class="mb-12">
+					<div class="flex items-center gap-3 mb-4">
+						<span class="w-8 h-8 border-2 border-accent flex items-center justify-center text-accent text-xs font-bold">3</span>
+						<h2 class="text-xl font-black uppercase text-white">Connect &amp; Share</h2>
+					</div>
+					<div class="ml-11 bg-bg-code border-2 border-border p-5">
+						<pre class="text-sm leading-relaxed"><span class="text-fg-muted"># Point the CLI at your Worker</span>
+<span class="text-accent-light">mdrop init</span>
+<span class="text-fg-muted"># Paste your Worker URL and the API key you chose</span>
+
+<span class="text-fg-muted"># Share your first file</span>
+<span class="text-accent-light">mdrop README.md --theme brutalist</span>
+<span class="text-success"># → https://your-worker.workers.dev/a1b2c3d4</span></pre>
+					</div>
+				</div>
+
+				<!-- Custom Domain -->
+				<div class="mb-12">
+					<div class="flex items-center gap-3 mb-4">
+						<span class="w-8 h-8 border-2 border-border flex items-center justify-center text-fg-muted text-xs font-bold">+</span>
+						<h2 class="text-lg font-black uppercase text-fg-muted">Custom Domain (optional)</h2>
+					</div>
+					<div class="ml-11 text-sm text-fg-muted space-y-2">
+						<p>Want pages at <code class="text-accent-light bg-bg-code px-1.5 py-0.5 text-xs">share.yourdomain.com</code>?</p>
+						<ol class="list-decimal list-inside space-y-1">
+							<li>Go to Workers &amp; Pages → your mDrop Worker → Settings → Domains &amp; Routes</li>
+							<li>Click Add → Custom Domain</li>
+							<li>Enter your subdomain — Cloudflare handles DNS and SSL</li>
+							<li>Run <code class="text-accent-light bg-bg-code px-1.5 py-0.5 text-xs">mdrop init</code> again with your new domain</li>
+						</ol>
+					</div>
+				</div>
+
+				<!-- Usage Reference -->
+				<div class="border-t-2 border-border pt-12">
+					<h2 class="text-xl font-black uppercase text-white mb-6">Quick Reference</h2>
+					<div class="bg-bg-code border-2 border-border p-5">
+						<pre class="text-sm leading-relaxed"><span class="text-fg-muted"># Themes</span>
+<span class="text-accent-light">mdrop file.md --theme clean</span>       <span class="text-fg-muted"># minimal sans-serif (default)</span>
+<span class="text-accent-light">mdrop file.md --theme brutalist</span>   <span class="text-fg-muted"># hard borders, monospace</span>
+<span class="text-accent-light">mdrop file.md --theme terminal</span>    <span class="text-fg-muted"># green on black, hacker</span>
+<span class="text-accent-light">mdrop file.md --theme academic</span>    <span class="text-fg-muted"># serif, paper, LaTeX</span>
+<span class="text-accent-light">mdrop file.md --theme playful</span>     <span class="text-fg-muted"># rounded, colorful</span>
+
+<span class="text-fg-muted"># Expiry</span>
+<span class="text-accent-light">mdrop file.md --expires 1h</span>        <span class="text-fg-muted"># 1 hour</span>
+<span class="text-accent-light">mdrop file.md --expires 7d</span>        <span class="text-fg-muted"># 7 days (default)</span>
+<span class="text-accent-light">mdrop file.md --expires never</span>     <span class="text-fg-muted"># permanent</span>
+
+<span class="text-fg-muted"># Management</span>
+<span class="text-accent-light">mdrop list</span>                        <span class="text-fg-muted"># list shared pages</span>
+<span class="text-accent-light">mdrop delete a1b2c3d4</span>            <span class="text-fg-muted"># delete a page</span>
+<span class="text-accent-light">mdrop preview file.md</span>             <span class="text-fg-muted"># preview before sharing</span></pre>
+					</div>
+				</div>
+			</div>
+
+			<!-- Agent Skill -->
+			<div id="content-skill" class="hidden">
+				<div class="mb-8">
+					<h2 class="text-xl font-black uppercase text-white mb-4">Install the Agent Skill</h2>
+					<p class="text-fg-muted text-sm mb-6">
+						The mDrop agent skill lets Claude Code handle everything — setup, deploy, and sharing. One command installs it.
+					</p>
+					<div class="bg-bg-code border-2 border-border-heavy shadow-[6px_6px_0_var(--color-accent)] p-5 mb-4">
+						<pre class="text-sm leading-relaxed"><span class="text-accent-light">curl -fsSL https://raw.githubusercontent.com/vincenthopf/mdrop/main/skill/install.sh | bash</span></pre>
+					</div>
+					<p class="text-fg-muted text-xs">
+						This clones the repo to <code class="text-accent-light bg-bg-code px-1.5 py-0.5 text-xs">~/.agents/mdrop</code> and symlinks the skill to <code class="text-accent-light bg-bg-code px-1.5 py-0.5 text-xs">~/.claude/skills/mdrop.md</code>.
+					</p>
+				</div>
+
+				<div class="mb-8">
+					<h2 class="text-xl font-black uppercase text-white mb-4">Use It</h2>
+					<p class="text-fg-muted text-sm mb-4">
+						Once installed, just tell Claude Code what you want:
+					</p>
+					<div class="space-y-4">
+						<div class="bg-bg-card border-2 border-border p-5">
+							<p class="text-white text-sm font-bold mb-2">"Share this README"</p>
+							<p class="text-fg-muted text-xs">Claude checks if mDrop is configured, installs it if needed, renders the file, uploads it, and gives you the URL.</p>
+						</div>
+						<div class="bg-bg-card border-2 border-border p-5">
+							<p class="text-white text-sm font-bold mb-2">"Set up mDrop"</p>
+							<p class="text-fg-muted text-xs">Claude walks you through the full setup — deploying the Worker, installing the CLI, and configuring everything.</p>
+						</div>
+						<div class="bg-bg-card border-2 border-border p-5">
+							<p class="text-white text-sm font-bold mb-2">"/mdrop notes.md --theme terminal"</p>
+							<p class="text-fg-muted text-xs">Direct invocation with the slash command. Same as running mdrop from the terminal.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="mb-8">
+					<h2 class="text-xl font-black uppercase text-white mb-4">What the Skill Does</h2>
+					<div class="bg-bg-code border border-border p-5 text-sm text-fg-muted space-y-2">
+						<p><span class="text-accent mr-2">1.</span>Checks if <code class="text-accent-light">mdrop</code> CLI is installed</p>
+						<p><span class="text-accent mr-2">2.</span>Checks if it's configured (Worker URL + API key)</p>
+						<p><span class="text-accent mr-2">3.</span>If not → walks you through deploy + install + configure</p>
+						<p><span class="text-accent mr-2">4.</span>If ready → runs the command and returns your URL</p>
+					</div>
+				</div>
+
+				<div>
+					<h2 class="text-xl font-black uppercase text-white mb-4">Windows</h2>
+					<p class="text-fg-muted text-sm mb-4">
+						On Windows (PowerShell or WSL), clone manually and copy the skill file:
+					</p>
+					<div class="bg-bg-code border-2 border-border p-5">
+						<pre class="text-sm leading-relaxed"><span class="text-fg-muted"># PowerShell</span>
+<span class="text-accent-light">git clone https://github.com/vincenthopf/mdrop $env:USERPROFILE\.agents\mdrop</span>
+<span class="text-accent-light">Copy-Item $env:USERPROFILE\.agents\mdrop\skill\mdrop.md $env:USERPROFILE\.claude\skills\mdrop.md</span></pre>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<Footer />
+	<Animations />
+</Layout>
+
+<script>
+	function showTab(tab: string) {
+		const manual = document.getElementById('content-manual')!;
+		const skill = document.getElementById('content-skill')!;
+		const tabManual = document.getElementById('tab-manual')!;
+		const tabSkill = document.getElementById('tab-skill')!;
+
+		if (tab === 'manual') {
+			manual.classList.remove('hidden');
+			skill.classList.add('hidden');
+			tabManual.classList.add('bg-accent', 'text-white', 'border-accent');
+			tabManual.classList.remove('text-fg-muted', 'border-border');
+			tabSkill.classList.remove('bg-accent', 'text-white', 'border-accent');
+			tabSkill.classList.add('text-fg-muted', 'border-border');
+		} else {
+			skill.classList.remove('hidden');
+			manual.classList.add('hidden');
+			tabSkill.classList.add('bg-accent', 'text-white', 'border-accent');
+			tabSkill.classList.remove('text-fg-muted', 'border-border');
+			tabManual.classList.remove('bg-accent', 'text-white', 'border-accent');
+			tabManual.classList.add('text-fg-muted', 'border-border');
+		}
+	}
+</script>
