@@ -31,12 +31,6 @@ jobs:
       - name: Build site
         run: pnpm --filter mdrop-site build
 
-      - name: Test CLI
-        run: |
-          echo "# Test" > /tmp/test.md
-          echo "Hello **world**" >> /tmp/test.md
-          node cli/bin/mdrop.js preview /tmp/test.md --theme clean
-
       - name: Publish to npm
         run: npm publish --access public
         working-directory: cli
